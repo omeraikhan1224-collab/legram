@@ -1,0 +1,190 @@
+/* Legram — boss duel layer.
+   The GSAP director owns every combat beat when .fx-pro is on the arena, so
+   older keyframes for those beats step aside. Layout: prompt card on top,
+   feedback just under it, the two fighters large on the ground line. */
+
+/* ---------- director ownership ---------- */
+.arena.fx-pro{transform-origin:50% 60%;will-change:transform}
+.arena.fx-pro.correct-impact,.arena.fx-pro.wrong-impact{animation:none}
+.arena.fx-pro .combat-entity .entity-motion,
+.arena.fx-pro .combat-entity .entity-shadow{animation:none!important}
+.arena.fx-pro .monster.boss-sprite .entity-visual{animation:none!important}
+
+/* ---------- fighters: bigger, normalized art, readable silhouettes ---------- */
+.arena.duel{--ground-line:76%}
+.arena.duel .combat-entity.le-sprite{width:clamp(118px,33vw,200px);height:clamp(118px,33vw,200px)}
+.arena.duel .combat-entity.monster.boss-sprite{width:clamp(138px,40vw,250px);height:auto;aspect-ratio:342/308}
+.arena.duel .combat-entity{bottom:calc(100% - var(--ground-line) - 4px)}
+
+/* Hero: every pose shares one scale and one foot anchor (640x424 canvas). */
+.arena.duel .le-sprite .entity-visual,
+.arena.duel .le-sprite .fx-ghost{inset:auto;left:50%;bottom:0;width:151%;height:100%;transform:translateX(-50%);contain:none;background-size:100% 100%;background-position:0 0;background-image:url('../assets/game/frog-idle-n.png');animation:none}
+.arena.duel .le-sprite.running .entity-visual,.arena.duel .le-sprite.running .fx-ghost{background-image:url('../assets/game/frog-run-n.png');background-size:600% 100%;animation:leRunFramesN .48s step-end infinite}
+.arena.duel .le-sprite.attack .entity-visual,.arena.duel .le-sprite.attack .fx-ghost,
+.arena.duel .le-sprite.victory .entity-visual{background-image:url('../assets/game/frog-attack-n.png');background-size:100% 100%;animation:none}
+.arena.duel .le-sprite.hurt .entity-visual{background-image:url('../assets/game/frog-hurt-n.png');background-size:100% 100%;animation:none}
+.arena.duel .le-sprite .entity-motion{filter:drop-shadow(0 0 1.5px #f3e8ffcc) drop-shadow(0 0 10px #a855f766) drop-shadow(0 10px 8px #0009)}
+.arena.duel .le-sprite .entity-dust{display:none}
+@keyframes leRunFramesN{0%{background-position:0 0}16.66%{background-position:20% 0}33.33%{background-position:40% 0}50%{background-position:60% 0}66.66%{background-position:80% 0}83.33%{background-position:100% 0}}
+
+/* Boss: tight 342x308 frames, rim light keyed to danger red. */
+.arena.duel .monster.boss-sprite{--monster-sheet:url('../assets/game/monster-action-cycle-tight.png')}
+.arena.duel .monster.boss-sprite.variant-crystal{--monster-sheet:url('../assets/game/monster-action-cycle-tight.png')}
+.arena.duel .monster.boss-sprite.variant-boar{--monster-sheet:url('../assets/game/monster-boar-cycle-tight.png')}
+.arena.duel .monster.boss-sprite.variant-tanuki{--monster-sheet:url('../assets/game/monster-tanuki-cycle-tight.png')}
+.arena.duel .monster.boss-sprite .entity-visual{background-size:600% 100%;transform:none;contain:none}
+.arena.duel .monster .entity-motion{filter:drop-shadow(0 0 1.5px #ffd6dfaa) drop-shadow(0 0 12px #ff3d6340) drop-shadow(0 12px 10px #000a)}
+.arena.duel .monster .entity-shadow{bottom:-3%;height:13%}
+.arena.duel .le-sprite .entity-shadow{bottom:-2%;left:8%;right:8%;height:12%}
+
+/* Figure-ground: dim the painting, light the stage floor. */
+.arena.duel .world-art{filter:saturate(.8) brightness(.62) blur(.4px)}
+.arena.duel .world-glow{background:linear-gradient(180deg,#0b071466 0,transparent 30%,transparent 52%,#0b0714cc 100%),radial-gradient(ellipse 70% 22% at 50% var(--ground-line),#c4b5fd2e,transparent 70%)}
+.arena.duel .petals{opacity:.45}
+
+/* ---------- prompt card: picture, Arabic meaning, big timer ---------- */
+.arena.duel .prompt-card{top:4%;width:min(210px,58vw);height:auto;min-height:0;padding:14px 12px 22px;display:grid;grid-template-rows:auto auto auto;gap:4px;justify-items:center;transition:opacity .2s}
+.arena.duel .prompt-card.waiting{opacity:0}
+.arena.duel .prompt-card #picture{font-size:56px;height:68px;display:grid;place-items:center}
+.arena.duel .prompt-card #picture.word-art{width:72px;height:72px}
+.prompt-ar{position:relative;z-index:2;display:block;max-width:100%;color:#2d164a;font-size:19px;font-weight:900;line-height:1.3;text-align:center;text-wrap:balance}
+.arena.duel .prompt-card>small{position:static;color:#6d28d9;font-size:11px;font-weight:800;letter-spacing:.01em}
+.arena.duel .timer-ring{top:-16px;right:-16px;width:58px;height:58px}
+.arena.duel .timer-ring span{font-size:22px;font-weight:900;font-variant-numeric:tabular-nums}
+.prompt-timebar{position:absolute;right:12px;bottom:8px;left:12px;height:5px;border-radius:999px;background:#7c3aed22;overflow:hidden}
+.prompt-timebar::after{content:"";position:absolute;inset:0;border-radius:inherit;background:linear-gradient(90deg,#8b5cf6,#c084fc);transform-origin:left center;transform:scaleX(var(--time-left,1))}
+.timer-ring.urgent{background:conic-gradient(#ff315a var(--ring),#3a1520 0);box-shadow:0 0 0 4px #ff315a40,0 0 26px #ff315a88,0 8px 18px #0007}
+.timer-ring.urgent span{color:#ffd1da}
+.arena.duel .prompt-card:has(.timer-ring.urgent) .prompt-timebar::after{background:linear-gradient(90deg,#ff315a,#ff8a4c)}
+
+/* ---------- feedback: compact, under the card, never over the fight ---------- */
+.arena.duel .feedback{top:calc(4% + 174px);bottom:auto;width:min(320px,calc(100% - 32px));padding:9px 14px;border-radius:14px}
+.arena.duel .feedback.show{display:grid;animation:feedbackIn .22s var(--ease-out) both}
+.arena.duel .feedback strong{font-size:17px}
+.arena.duel .feedback span{font-size:12px}
+.arena.duel .feedback.wrong{border-color:#ff5a7a55}
+.arena.duel .feedback.correct{border-color:#23cdb555}
+@keyframes feedbackIn{from{opacity:0;transform:translate(-50%,8px) scale(.96)}to{opacity:1;transform:translate(-50%,0) scale(1)}}
+
+/* ---------- boss energy: one segment per hit needed ---------- */
+.arena.duel .monster-hp{position:absolute;top:auto;right:auto;left:50%;bottom:calc(100% + 10px);width:104%;max-width:210px;transform:translateX(-50%);padding:6px 8px 7px;border-radius:11px;background:#0d0918e6;border-color:#ff5a7a3d;display:block}
+.arena.duel .monster-hp span{text-align:center;font-size:11px;color:#ffd6df}
+.arena.duel .monster-hp i{height:10px;display:flex;gap:3px;overflow:visible;background:none;border-radius:0}
+.arena.duel .monster-hp .seg{flex:1;width:auto;height:100%;border-radius:3px;background:linear-gradient(180deg,#ff6b88,#e11d48);box-shadow:0 0 8px #ff315a66;transition:background .2s,box-shadow .2s,transform .25s}
+.arena.duel .monster-hp .seg.lost{background:#ffffff14;box-shadow:inset 0 0 0 1px #ffffff12;transform:scaleY(.6)}
+
+/* Lives read as hero energy */
+.game-hud .lives span{transform-origin:50% 60%}
+
+/* ---------- overlay FX ---------- */
+.combat-overlay{position:absolute;z-index:16;inset:0;pointer-events:none;overflow:hidden}
+.combat-overlay>i{position:absolute;display:block;pointer-events:none}
+.fx-flash{inset:-10%;opacity:0;mix-blend-mode:screen}
+.fx-vignette{inset:-10%;opacity:0;background:radial-gradient(ellipse at 50% 60%,transparent 40%,#ff1f4b55 70%,#7a0020dd 100%)}
+.fx-speedlines{inset:0;opacity:0;background:repeating-linear-gradient(180deg,transparent 0 9px,#ffffff20 9px 10px,transparent 10px 23px);-webkit-mask-image:linear-gradient(90deg,transparent 0,#000 25%,#000 75%,transparent);mask-image:linear-gradient(90deg,transparent 0,#000 25%,#000 75%,transparent)}
+.combat-overlay .fx-temp{width:0;height:0}
+.fx-arc::before{content:"";position:absolute;left:-75px;top:-75px;width:150px;height:150px;border-radius:50%;background:conic-gradient(from 200deg,transparent 0 36%,#f5d0fe 45%,#fff 50%,#c084fc 57%,transparent 66%);-webkit-mask:radial-gradient(circle,transparent 52%,#000 54%,#000 65%,transparent 68%);mask:radial-gradient(circle,transparent 52%,#000 54%,#000 65%,transparent 68%);filter:drop-shadow(0 0 10px #d8b4fe)}
+.fx-arc.crit::before{background:conic-gradient(from 200deg,transparent 0 34%,#fef3c7 44%,#fff 50%,#f59e0b 58%,transparent 68%);filter:drop-shadow(0 0 14px #fbbf24)}
+.fx-ring::before{content:"";position:absolute;left:-30px;top:-30px;width:60px;height:60px;border-radius:50%;border:3px solid #fff;box-shadow:0 0 18px #c084fc,inset 0 0 12px #c084fc}
+.fx-claw::before{content:"";position:absolute;left:-2px;top:-52px;width:4px;height:104px;border-radius:4px;background:linear-gradient(180deg,transparent,#ff3d63 25%,#fff 50%,#ff3d63 75%,transparent);box-shadow:0 0 12px #ff315a}
+.fx-spark::before{content:"";position:absolute;left:-5px;top:-1.5px;width:10px;height:3px;border-radius:3px;background:var(--c,#fff);box-shadow:0 0 8px var(--c,#fff)}
+.fx-dust::before{content:"";position:absolute;left:-9px;top:-9px;width:18px;height:18px;border-radius:50%;background:radial-gradient(circle,#d6c6b8aa,#a8928200 70%)}
+.fx-pop{display:block;white-space:nowrap}
+.fx-pop b,.fx-pop em{position:absolute;left:0;transform:translateX(-50%);font-style:normal;font-weight:900}
+.fx-pop b{top:-16px;font-size:22px;color:#fff;text-shadow:0 2px 0 #3b0a6b,0 0 14px #a855f7}
+.fx-pop em{top:12px;font-size:13px;color:#fde68a;text-shadow:0 2px 0 #5a3a00,0 0 10px #f59e0b}
+.fx-callout{left:50%;top:44%;opacity:0;transform-origin:50% 50%;margin-left:-110px;width:220px;text-align:center;font-size:30px;font-weight:900;letter-spacing:.01em;color:#fff;text-shadow:0 3px 0 #3b0764,0 0 18px #c084fc}
+.fx-callout.crit{color:#fde68a;text-shadow:0 3px 0 #713f12,0 0 22px #f59e0b}
+.fx-callout.win{color:#ecfeff;text-shadow:0 3px 0 #134e4a,0 0 22px #2dd4bf}
+.fx-callout.lose{color:#ffe4e6;text-shadow:0 3px 0 #881337,0 0 22px #f43f5e}
+.fx-banner{left:50%;top:40%;display:block}
+.fx-banner{width:0;height:0}
+.fx-banner small,.fx-banner b,.fx-banner em{position:absolute;left:0;transform:translateX(-50%);white-space:nowrap;text-align:center;font-style:normal}
+.fx-banner small{top:-44px;font-size:11px;font-weight:800;letter-spacing:.12em;color:#fda4af}
+.fx-banner b{top:-28px;padding:6px 22px;font-size:26px;font-weight:900;color:#fff;background:linear-gradient(90deg,transparent,#7f1d1dcc 15%,#7f1d1dcc 85%,transparent);text-shadow:0 2px 0 #450a0a,0 0 16px #f43f5e}
+.fx-banner em{top:22px;font-size:13px;font-weight:800;color:#fecdd3}
+
+/* Afterimages left behind by Le's dash */
+.le-sprite .fx-ghost{position:absolute;display:block;pointer-events:none;opacity:0;filter:brightness(1.7) saturate(1.5) drop-shadow(0 0 10px #c084fc);mix-blend-mode:screen}
+
+@media (max-height:720px){
+  .arena.duel .prompt-card{top:2%;padding:10px 10px 18px;gap:2px}
+  .arena.duel .prompt-card #picture{font-size:44px;height:50px}
+  .arena.duel .prompt-card #picture.word-art{width:54px;height:54px}
+  .prompt-ar{font-size:16px}
+  .arena.duel .combat-entity.le-sprite{width:clamp(104px,29vw,170px);height:clamp(104px,29vw,170px)}
+  .arena.duel .combat-entity.monster.boss-sprite{width:clamp(120px,35vw,220px)}
+  .arena.duel .feedback{top:calc(2% + 150px);padding:7px 12px}
+}
+@media (prefers-reduced-motion: reduce){
+  .fx-speedlines{display:none}
+  .arena.duel .feedback.show{animation:none}
+}
+
+.feedback bdi{font-weight:800;color:#fff}
+.arena.duel .monster-hp span{margin-bottom:4px;font-size:10px}
+.arena.duel .monster-hp i{height:8px}
+
+/* ---------- pronunciation replay & credits ---------- */
+.arena.duel .feedback{padding-inline-start:46px}
+.feedback-listen{position:absolute;top:50%;inset-inline-start:8px;width:32px;height:32px;display:grid;place-items:center;padding:0;border-radius:50%;transform:translateY(-50%);background:#ffffff14;border:1px solid #ffffff2a;color:#f5efff}
+.feedback-listen svg{width:18px;height:18px;fill:none;stroke:currentColor;stroke-width:3;stroke-linecap:round;stroke-linejoin:round}
+.feedback-listen:focus-visible{outline:2px solid #c4b5fd;outline-offset:2px}
+.credits-link{margin-inline-start:auto;padding:6px 12px;border-radius:999px;background:#ffffff0d;border:1px solid #ffffff22;color:var(--text-soft);font-size:11px;font-weight:800}
+.credits-modal>div{width:min(460px,100%);max-height:min(80vh,640px);overflow:hidden;grid-template-rows:auto auto minmax(0,1fr) auto;text-align:start}
+.credits-modal p{margin:0;color:var(--text-soft);font-size:12px;line-height:1.6}
+.credits-list{min-height:0;overflow:auto;display:grid;gap:6px;padding-inline-end:4px}
+.credits-list details{border:1px solid #ffffff18;border-radius:12px;background:#ffffff08}
+.credits-list summary{display:flex;justify-content:space-between;gap:10px;padding:10px 12px;cursor:pointer;font-size:13px}
+.credits-list summary span{color:var(--text-muted);font-size:11px}
+.credits-list ul{margin:0;padding:0 12px 10px;list-style:none;display:grid;gap:4px}
+.credits-list li{font-size:11px;display:flex;justify-content:space-between;gap:8px}
+.credits-list a{color:var(--violet-300);overflow-wrap:anywhere}
+.credits-list small{color:var(--text-muted);white-space:nowrap}
+
+/* ===================== Living worlds =====================
+   The painting is the stage. Its plaza is the floor (ground line computed in
+   world-fx.js). Code-drawn landmarks, stripes and the flat ground band are
+   gone; depth comes from grade, mist, weather and a slow camera drift. */
+.arena.duel .parallax-fog,.arena.duel .parallax-trees,.arena.duel .level-landmark,.arena.duel .track-lanterns,
+.arena.duel .track-stones,.arena.duel .parallax-ground,.arena.duel .petals{display:none}
+.arena.duel .world-art{inset:0;transform:none;background-size:cover;background-position:calc(50% + var(--camera-far,0px)) 70%;filter:saturate(.95) brightness(.8)}
+.arena.duel .world-glow{z-index:-7;mix-blend-mode:soft-light;background:none}
+.world-weather{position:absolute;inset:0;z-index:6;width:100%;height:100%;pointer-events:none}
+.world-fauna{position:absolute;inset:0;z-index:5;width:100%;height:100%;pointer-events:none}
+.world-mist{position:absolute;left:-30%;right:-30%;pointer-events:none;opacity:.0;background:radial-gradient(ellipse 30% 60% at 20% 50%,var(--mist,#c4b5fd) 0,transparent 70%),radial-gradient(ellipse 26% 50% at 58% 60%,var(--mist,#c4b5fd) 0,transparent 70%),radial-gradient(ellipse 30% 55% at 88% 45%,var(--mist,#c4b5fd) 0,transparent 70%);filter:blur(14px);animation:mistDrift 38s linear infinite}
+.world-mist-far{z-index:-6;top:42%;height:26%;opacity:.16}
+.world-mist-near{z-index:10;top:calc(var(--ground-line) - 7%);height:16%;opacity:.12;animation-duration:24s;animation-direction:reverse}
+@keyframes mistDrift{from{transform:translateX(-12%)}to{transform:translateX(12%)}}
+.world-foreground{position:absolute;inset:0;z-index:12;pointer-events:none;background:radial-gradient(ellipse 120% 80% at 50% 45%,transparent 55%,#05030acc 100%),linear-gradient(180deg,transparent calc(var(--ground-line) + 6%),#08050fb3 100%)}
+
+/* per-world grade: same land, different hour and season */
+.arena.duel[data-weather="dusk"]{--mist:#c4b5fd}
+.arena.duel[data-weather="dusk"] .world-art{background-image:url('../assets/game/world-a1-g1.webp')}
+.arena.duel[data-weather="dusk"] .world-glow{background:linear-gradient(180deg,#7c3aed55,transparent 45%,#f472b633 80%)}
+.arena.duel[data-weather="forest"]{--mist:#bbf7d0}
+.arena.duel[data-weather="forest"] .world-art{background-image:url('../assets/game/world-a2-v1.webp');filter:saturate(.95) brightness(.82)}
+.arena.duel[data-weather="forest"] .world-glow{background:radial-gradient(ellipse 70% 50% at 30% 10%,#fde68a66,transparent 70%),linear-gradient(180deg,transparent 40%,#14532d55)}
+.arena.duel[data-weather="city"]{--mist:#bfdbfe}
+.arena.duel[data-weather="city"] .world-art{background-image:url('../assets/game/world-b1-g1.webp');filter:saturate(.95) brightness(.8)}
+.arena.duel[data-weather="city"] .world-glow{background:linear-gradient(180deg,#1e3a8a77,transparent 50%,#0ea5e933 85%)}
+.arena.duel[data-weather="ember"]{--mist:#fed7aa}
+.arena.duel[data-weather="ember"] .world-art{background-image:url('../assets/game/world-b2-g1.webp');filter:saturate(.95) brightness(.8)}
+.arena.duel[data-weather="ember"] .world-glow{background:linear-gradient(180deg,#7c2d1288,transparent 45%,#ea580c44 90%)}
+.arena.duel[data-weather="aurora"]{--mist:#cffafe}
+.arena.duel[data-weather="aurora"] .world-art{background-image:url('../assets/game/world-c1-g1.webp');filter:saturate(.95) brightness(.8)}
+.arena.duel[data-weather="aurora"] .world-glow{background:linear-gradient(160deg,#22d3ee55,transparent 35%),linear-gradient(200deg,#a855f744,transparent 40%)}
+@media (prefers-reduced-motion:reduce){.world-mist{animation:none}}
+
+/* ---------- voice-only answers: always-on live mic ---------- */
+#wordTypeToggle,#wordTypeForm{display:none!important}
+.word-answer-controls{width:auto;max-width:calc(100% - 24px);gap:10px;padding:6px 16px 6px 6px;border-radius:999px;background:#120b1fd9;border:1px solid #ffffff1f;box-shadow:0 10px 26px #050209a8;backdrop-filter:blur(12px)}
+.word-answer-controls .mic{pointer-events:none}
+.word-answer-controls[data-live="off"] .mic{pointer-events:auto;background:linear-gradient(145deg,#4b3a63,#2a1f3b);border-color:#ffffff33;box-shadow:none}
+.word-answer-controls[data-live="off"]{border-color:#ff5a7a55;cursor:pointer}
+.word-answer-controls[data-live="on"] .mic{background:linear-gradient(145deg,#ef4466,#be123c);border-color:#fecdd3;box-shadow:0 0 0 5px #f43f5e22,0 0 24px #f43f5e88}
+.word-answer-controls[data-live="on"] .mic::before,.word-answer-controls[data-live="on"] .mic::after{border-color:#fb7185aa}
+.word-live-text{color:#f5efff;font-size:13px;font-weight:800;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:62vw}
+.word-answer-controls[data-live="on"] .word-live-text::before{content:"";display:inline-block;width:7px;height:7px;margin-inline-end:7px;border-radius:50%;background:#fb7185;box-shadow:0 0 8px #fb7185;vertical-align:middle;animation:liveDot 1s ease-in-out infinite}
+.word-answer-controls[data-live="off"] .word-live-text{color:#fecdd3;white-space:normal;font-size:12px;line-height:1.4}
+@keyframes liveDot{50%{opacity:.25}}

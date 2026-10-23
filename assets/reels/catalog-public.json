@@ -1,0 +1,65 @@
+[
+  {
+    "id": "user-01",
+    "src": "assets/reels/legram-user-01.mp4",
+    "topic": "Deutsch im Alltag",
+    "caption": "",
+    "de": "Ich möchte einen Termin vereinbaren.",
+    "ar": "أريد حجز موعد.",
+    "words": ["Termin", "vereinbaren"]
+  },
+  {
+    "id": "user-02",
+    "src": "assets/reels/legram-user-02.mp4",
+    "topic": "Deutsch-Meme",
+    "caption": "",
+    "de": "Das ist meine Pflanze.",
+    "ar": "هذا نباتي.",
+    "words": ["Pflanze", "Wohnung"]
+  },
+  {
+    "id": "user-03",
+    "src": "assets/reels/legram-user-03.mp4",
+    "topic": "Deutsch-Moment",
+    "caption": "",
+    "de": "Warum ist die Treppe so lang?",
+    "ar": "لماذا الدرج طويل هكذا؟",
+    "words": ["Treppe", "lang"]
+  },
+  {
+    "id": "user-04",
+    "src": "assets/reels/legram-user-04.mp4",
+    "topic": "Deutsch-Meme",
+    "caption": "",
+    "de": "Warum habe ich immer so viele blaue Flecke?",
+    "ar": "لماذا لدي دائمًا كل هذه الكدمات؟",
+    "words": ["blau", "Flecke"]
+  },
+  {
+    "id": "user-05",
+    "src": "assets/reels/legram-user-05.mp4",
+    "topic": "Deutsch-Meme",
+    "caption": "",
+    "de": "Wassermelone mit Kokosmilch.",
+    "ar": "بطيخ مع حليب جوز الهند.",
+    "words": ["Wassermelone", "Kokosmilch"]
+  },
+  {
+    "id": "user-06",
+    "src": "assets/reels/legram-user-06.mp4",
+    "topic": "Deutsch im Alltag",
+    "caption": "",
+    "de": "POV: Du hast gerade Deutsch gelernt.",
+    "ar": "عندما تتعلم الألمانية للتو.",
+    "words": ["gerade", "gelernt"]
+  },
+  {
+    "id": "user-07",
+    "src": "assets/reels/legram-user-07.mp4",
+    "topic": "Deutsch-Meme",
+    "caption": "",
+    "de": "Bitte mach Termine bei mir.",
+    "ar": "من فضلك احجز المواعيد لدي.",
+    "words": ["Termin", "bitte"]
+  }
+]

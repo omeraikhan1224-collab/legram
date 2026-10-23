@@ -1,0 +1,1001 @@
+{
+ "job": {
+  "id": "dialogue-v1",
+  "status": "partial",
+  "modelId": "eleven_v3",
+  "totalClips": 162,
+  "completedClips": 160,
+  "failedClips": 2,
+  "totalCharacters": 7512,
+  "error": "",
+  "detail": "",
+  "createdAt": 1788437254413,
+  "updatedAt": 1788440733474,
+  "finishedAt": 1788440733474
+ },
+ "characters": [
+  {
+   "place": "home",
+   "name": "لومي",
+   "role": "رفيقة المنزل",
+   "voiceName": "Jessica - Playful, Bright, Warm",
+   "modelId": "eleven_v3"
+  },
+  {
+   "place": "work",
+   "name": "فريتز",
+   "role": "مدير المكتب",
+   "voiceName": "Brian - Deep, Resonant and Comforting",
+   "modelId": "eleven_v3"
+  },
+  {
+   "place": "market",
+   "name": "ميرو",
+   "role": "موظف المتجر",
+   "voiceName": "Liam - Energetic, Social Media Creator",
+   "modelId": "eleven_v3"
+  }
+ ],
+ "clips": [
+  {
+   "id": "home-0b31d84004da013a94",
+   "place": "home",
+   "text": "Sehr gut, ich helfe später.",
+   "src": "/api/voices/clips/home-0b31d84004da013a94"
+  },
+  {
+   "id": "home-0d80527ad4b61d6e8a",
+   "place": "home",
+   "text": "So profitieren langfristig Menschen in sehr unterschiedlichen Lebenslagen.",
+   "src": "/api/voices/clips/home-0d80527ad4b61d6e8a"
+  },
+  {
+   "id": "home-1d97ccdc26f9ce6d5b",
+   "place": "home",
+   "text": "Er liegt auf dem Tisch.",
+   "src": "/api/voices/clips/home-1d97ccdc26f9ce6d5b"
+  },
+  {
+   "id": "home-1f3425fbf37a085f41",
+   "place": "home",
+   "text": "Einverstanden, wir können alle festen Kosten darin erfassen.",
+   "src": "/api/voices/clips/home-1f3425fbf37a085f41"
+  },
+  {
+   "id": "home-238311093c7151e2e8",
+   "place": "home",
+   "text": "Ein transparentes Modell könnte diese Faktoren gewichten.",
+   "src": "/api/voices/clips/home-238311093c7151e2e8"
+  },
+  {
+   "id": "home-2770d064a41cefb9f8",
+   "place": "home",
+   "text": "Das ist nett, ich backe einen Kuchen dazu.",
+   "src": "/api/voices/clips/home-2770d064a41cefb9f8"
+  },
+  {
+   "id": "home-2814f3cf5de7a9889f",
+   "place": "home",
+   "text": "Ich informiere gleich den Vermieter.",
+   "src": "/api/voices/clips/home-2814f3cf5de7a9889f"
+  },
+  {
+   "id": "home-2c54c7110a459a7e7d",
+   "place": "home",
+   "text": "Genau, damit haben wir eine verlässliche Grundlage.",
+   "src": "/api/voices/clips/home-2c54c7110a459a7e7d"
+  },
+  {
+   "id": "home-2ec24ba2da4098ed9e",
+   "place": "home",
+   "text": "Damit bliebe Raum für eine tragfähige Einigung.",
+   "src": "/api/voices/clips/home-2ec24ba2da4098ed9e"
+  },
+  {
+   "id": "home-382f5167e39c43b361",
+   "place": "home",
+   "text": "Das spricht für klare Regeln und ein abgestuftes Vorgehen.",
+   "src": "/api/voices/clips/home-382f5167e39c43b361"
+  },
+  {
+   "id": "home-38d582498399140800",
+   "place": "home",
+   "text": "Das ist eine gute Idee.",
+   "src": "/api/voices/clips/home-38d582498399140800"
+  },
+  {
+   "id": "home-3d2e8ac67daf5b57c1",
+   "place": "home",
+   "text": "Dann rufen wir den Anbieter an.",
+   "src": "/api/voices/clips/home-3d2e8ac67daf5b57c1"
+  },
+  {
+   "id": "home-3e291bd4b484bad7b7",
+   "place": "home",
+   "text": "Das wäre fair und könnte weitere Missverständnisse verhindern.",
+   "src": "/api/voices/clips/home-3e291bd4b484bad7b7"
+  },
+  {
+   "id": "home-4189ed35f06b7ebfdc",
+   "place": "home",
+   "text": "Diese Balance sollte sich auch in unseren Hausregeln widerspiegeln.",
+   "src": "/api/voices/clips/home-4189ed35f06b7ebfdc"
+  },
+  {
+   "id": "home-41efb3839276670c7a",
+   "place": "home",
+   "text": "Ja, ich bringe Milch mit.",
+   "src": "/api/voices/clips/home-41efb3839276670c7a"
+  },
+  {
+   "id": "home-42abf043899504d9d3",
+   "place": "home",
+   "text": "Deshalb sind räumliche oder zeitliche Grenzen umso wichtiger.",
+   "src": "/api/voices/clips/home-42abf043899504d9d3"
+  },
+  {
+   "id": "home-483113f800ca061bb2",
+   "place": "home",
+   "text": "Ich rufe ihn an und frage nach einem neuen Termin.",
+   "src": "/api/voices/clips/home-483113f800ca061bb2"
+  },
+  {
+   "id": "home-4af893fa00eab426d4",
+   "place": "home",
+   "text": "Dann sollten wir mehrere Angebote vergleichen.",
+   "src": "/api/voices/clips/home-4af893fa00eab426d4"
+  },
+  {
+   "id": "home-4b671206213891f977",
+   "place": "home",
+   "text": "Hallo, Le!",
+   "src": "/api/voices/clips/home-4b671206213891f977"
+  },
+  {
+   "id": "home-4c70695614a12d8e56",
+   "place": "home",
+   "text": "Ja, natürlich.",
+   "src": "/api/voices/clips/home-4c70695614a12d8e56"
+  },
+  {
+   "id": "home-526ad87699bf57a7dd",
+   "place": "home",
+   "text": "Gute Idee, dann kommt frische Luft herein.",
+   "src": "/api/voices/clips/home-526ad87699bf57a7dd"
+  },
+  {
+   "id": "home-599177b5b85ac3957b",
+   "place": "home",
+   "text": "Dann sollten wir sofort den Vermieter anrufen.",
+   "src": "/api/voices/clips/home-599177b5b85ac3957b"
+  },
+  {
+   "id": "home-5cc26edd18f1054f96",
+   "place": "home",
+   "text": "Eine reine Betrachtung des späteren Verbrauchs wäre daher zu kurz gegriffen.",
+   "src": "/api/voices/clips/home-5cc26edd18f1054f96"
+  },
+  {
+   "id": "home-5cf55a18f81f5e4b75",
+   "place": "home",
+   "text": "Ich melde die Störung beim Anbieter.",
+   "src": "/api/voices/clips/home-5cf55a18f81f5e4b75"
+  },
+  {
+   "id": "home-640b79dc97576f6a76",
+   "place": "home",
+   "text": "Das wäre eine prüfenswerte Alternative zum rein privaten Eigentum.",
+   "src": "/api/voices/clips/home-640b79dc97576f6a76"
+  },
+  {
+   "id": "home-6f5c9e6979b57680ca",
+   "place": "home",
+   "text": "Eine klare Dokumentation verhindert, dass diese Zuständigkeiten verschwimmen.",
+   "src": "/api/voices/clips/home-6f5c9e6979b57680ca"
+  },
+  {
+   "id": "home-79d5e76a044e34e963",
+   "place": "home",
+   "text": "Dann sollten wir zuerst eine schriftliche Genehmigung einholen.",
+   "src": "/api/voices/clips/home-79d5e76a044e34e963"
+  },
+  {
+   "id": "home-81542b5f29db8bd774",
+   "place": "home",
+   "text": "Ich kann heute abwaschen.",
+   "src": "/api/voices/clips/home-81542b5f29db8bd774"
+  },
+  {
+   "id": "home-8222a6bfcb962f0950",
+   "place": "home",
+   "text": "Dann legen wir feste Arbeits- und Ruhezeiten fest.",
+   "src": "/api/voices/clips/home-8222a6bfcb962f0950"
+  },
+  {
+   "id": "home-8885cdf8a043f768d3",
+   "place": "home",
+   "text": "Alles klar, bis später.",
+   "src": "/api/voices/clips/home-8885cdf8a043f768d3"
+  },
+  {
+   "id": "home-8b0d63bfd429603d62",
+   "place": "home",
+   "text": "Gerade diese verbindlichen Absprachen entscheiden über den Erfolg des Modells.",
+   "src": "/api/voices/clips/home-8b0d63bfd429603d62"
+  },
+  {
+   "id": "home-8d1741db5d3e87e866",
+   "place": "home",
+   "text": "Gern, dann klären wir das in Ruhe.",
+   "src": "/api/voices/clips/home-8d1741db5d3e87e866"
+  },
+  {
+   "id": "home-90736a85267e50b104",
+   "place": "home",
+   "text": "Ich unterstütze den Vorschlag und spreche mit der Verwaltung.",
+   "src": "/api/voices/clips/home-90736a85267e50b104"
+  },
+  {
+   "id": "home-930f7f10c277e68075",
+   "place": "home",
+   "text": "Dann dokumentieren wir alles und melden den Schaden sofort.",
+   "src": "/api/voices/clips/home-930f7f10c277e68075"
+  },
+  {
+   "id": "home-96ebf4f54d7624f319",
+   "place": "home",
+   "text": "Ja, mache ich.",
+   "src": "/api/voices/clips/home-96ebf4f54d7624f319"
+  },
+  {
+   "id": "home-97a6eed7aac676ccbb",
+   "place": "home",
+   "text": "Super, ich komme gleich.",
+   "src": "/api/voices/clips/home-97a6eed7aac676ccbb"
+  },
+  {
+   "id": "home-97f1df980a5135efd7",
+   "place": "home",
+   "text": "Ja, ich frage, ob er am Freitag kommen kann.",
+   "src": "/api/voices/clips/home-97f1df980a5135efd7"
+  },
+  {
+   "id": "home-9a0a2321b364432767",
+   "place": "home",
+   "text": "Dann prüfen wir gemeinsam die Begründung des Vermieters.",
+   "src": "/api/voices/clips/home-9a0a2321b364432767"
+  },
+  {
+   "id": "home-9c779804c74a0ce3c6",
+   "place": "home",
+   "text": "Das klingt flexibler und trotzdem gerecht.",
+   "src": "/api/voices/clips/home-9c779804c74a0ce3c6"
+  },
+  {
+   "id": "home-a40c58cd91c7c0e4f2",
+   "place": "home",
+   "text": "Dann sollten wir nur Systeme einsetzen, deren Datennutzung transparent ist.",
+   "src": "/api/voices/clips/home-a40c58cd91c7c0e4f2"
+  },
+  {
+   "id": "home-a7a7a700b025a36428",
+   "place": "home",
+   "text": "Gern, was soll ich machen?",
+   "src": "/api/voices/clips/home-a7a7a700b025a36428"
+  },
+  {
+   "id": "home-a885b9923278fdb5c1",
+   "place": "home",
+   "text": "Das lässt sich sachlich in der Hausgruppe besprechen.",
+   "src": "/api/voices/clips/home-a885b9923278fdb5c1"
+  },
+  {
+   "id": "home-ae9e417ce0ec6ae085",
+   "place": "home",
+   "text": "Deshalb braucht es langfristige Maßnahmen, die bezahlbaren Wohnraum sichern.",
+   "src": "/api/voices/clips/home-ae9e417ce0ec6ae085"
+  },
+  {
+   "id": "home-b0cbebd18fb1a4da9f",
+   "place": "home",
+   "text": "Danke, du auch!",
+   "src": "/api/voices/clips/home-b0cbebd18fb1a4da9f"
+  },
+  {
+   "id": "home-b274e0f70cc70330aa",
+   "place": "home",
+   "text": "Natürlich, wobei brauchst du Hilfe?",
+   "src": "/api/voices/clips/home-b274e0f70cc70330aa"
+  },
+  {
+   "id": "home-b601aa8c0d68bbfe8a",
+   "place": "home",
+   "text": "Dann sollten wir unseren Verbrauch genauer prüfen.",
+   "src": "/api/voices/clips/home-b601aa8c0d68bbfe8a"
+  },
+  {
+   "id": "home-b72f0329ff70c071bb",
+   "place": "home",
+   "text": "Verstanden, ich werde dich nicht stören.",
+   "src": "/api/voices/clips/home-b72f0329ff70c071bb"
+  },
+  {
+   "id": "home-c099834938634bea09",
+   "place": "home",
+   "text": "Ja, damit sparen wir Energie.",
+   "src": "/api/voices/clips/home-c099834938634bea09"
+  },
+  {
+   "id": "home-c24ff508a0adf290d6",
+   "place": "home",
+   "text": "Schön, dass du da bist.",
+   "src": "/api/voices/clips/home-c24ff508a0adf290d6"
+  },
+  {
+   "id": "home-c320867f208054b99a",
+   "place": "home",
+   "text": "Gute Idee, dann weiß jeder, was er tun muss.",
+   "src": "/api/voices/clips/home-c320867f208054b99a"
+  },
+  {
+   "id": "home-c99e08ff508972ecee",
+   "place": "home",
+   "text": "Ich decke den Tisch.",
+   "src": "/api/voices/clips/home-c99e08ff508972ecee"
+  },
+  {
+   "id": "home-cc5d825068d13c9956",
+   "place": "home",
+   "text": "Ich mache es nach dem Essen.",
+   "src": "/api/voices/clips/home-cc5d825068d13c9956"
+  },
+  {
+   "id": "home-d304f086aa178c426f",
+   "place": "home",
+   "text": "Dann hänge ich später die Wäsche auf.",
+   "src": "/api/voices/clips/home-d304f086aa178c426f"
+  },
+  {
+   "id": "home-df5fcd6fb8268465a3",
+   "place": "home",
+   "text": "Schlaf gut, Le!",
+   "src": "/api/voices/clips/home-df5fcd6fb8268465a3"
+  },
+  {
+   "id": "home-e03ebaf8238f4642ec",
+   "place": "home",
+   "text": "Dann kommt frische Luft herein.",
+   "src": "/api/voices/clips/home-e03ebaf8238f4642ec"
+  },
+  {
+   "id": "home-e4f04ca4bae9525d3e",
+   "place": "home",
+   "text": "Einverstanden, lass uns einen Plan machen.",
+   "src": "/api/voices/clips/home-e4f04ca4bae9525d3e"
+  },
+  {
+   "id": "home-e524c8ebd5321f77b9",
+   "place": "home",
+   "text": "Kein Problem, danke für die Entschuldigung.",
+   "src": "/api/voices/clips/home-e524c8ebd5321f77b9"
+  },
+  {
+   "id": "home-e6dd7e9a471eaaaca6",
+   "place": "home",
+   "text": "Guten Morgen, Le!",
+   "src": "/api/voices/clips/home-e6dd7e9a471eaaaca6"
+  },
+  {
+   "id": "home-e78b423471237383b5",
+   "place": "home",
+   "text": "Ja, er liegt auf dem Tisch.",
+   "src": "/api/voices/clips/home-e78b423471237383b5"
+  },
+  {
+   "id": "home-e92374ec1168360360",
+   "place": "home",
+   "text": "Dafür braucht es zusätzlich niedrigschwellige gemeinsame Räume.",
+   "src": "/api/voices/clips/home-e92374ec1168360360"
+  },
+  {
+   "id": "home-e9c7cb7b7dcb0a17eb",
+   "place": "home",
+   "text": "Das verlangt eine Planung, die soziale und ökologische Ziele verbindet.",
+   "src": "/api/voices/clips/home-e9c7cb7b7dcb0a17eb"
+  },
+  {
+   "id": "home-ec653a0400a49f8977",
+   "place": "home",
+   "text": "Ich helfe gern bei der Organisation des ersten Treffens.",
+   "src": "/api/voices/clips/home-ec653a0400a49f8977"
+  },
+  {
+   "id": "home-f1b9e371af7a37b7b5",
+   "place": "home",
+   "text": "Gut, dann decke ich den Tisch.",
+   "src": "/api/voices/clips/home-f1b9e371af7a37b7b5"
+  },
+  {
+   "id": "home-fb0642f32c06481a9a",
+   "place": "home",
+   "text": "Das ist ein anspruchsvolles, aber überzeugendes Leitbild.",
+   "src": "/api/voices/clips/home-fb0642f32c06481a9a"
+  },
+  {
+   "id": "market-074dde5465c873b406",
+   "place": "market",
+   "text": "Natürlich, hier bitte.",
+   "src": "/api/voices/clips/market-074dde5465c873b406"
+  },
+  {
+   "id": "market-0d0ba1848b6833e7de",
+   "place": "market",
+   "text": "Ich prüfe das sofort für Sie.",
+   "src": "/api/voices/clips/market-0d0ba1848b6833e7de"
+  },
+  {
+   "id": "market-103f3c300b919b3100",
+   "place": "market",
+   "text": "Ja, ich sehe sofort auf der Zutatenliste nach.",
+   "src": "/api/voices/clips/market-103f3c300b919b3100"
+  },
+  {
+   "id": "market-13bd3132ea5203964b",
+   "place": "market",
+   "text": "Haben Sie den Kassenbon dabei?",
+   "src": "/api/voices/clips/market-13bd3132ea5203964b"
+  },
+  {
+   "id": "market-1eca5b5359ba1db623",
+   "place": "market",
+   "text": "Ich kann Ihnen die Angaben des Lieferanten zeigen.",
+   "src": "/api/voices/clips/market-1eca5b5359ba1db623"
+  },
+  {
+   "id": "market-1f293215a4cd745552",
+   "place": "market",
+   "text": "Das würde Verbrauchern eine fundiertere Entscheidung ermöglichen.",
+   "src": "/api/voices/clips/market-1f293215a4cd745552"
+  },
+  {
+   "id": "market-2599d1785661301410",
+   "place": "market",
+   "text": "Sehr gern, hier sind Ihre Äpfel.",
+   "src": "/api/voices/clips/market-2599d1785661301410"
+  },
+  {
+   "id": "market-277fa44fec30f5300b",
+   "place": "market",
+   "text": "Das würde Vermeidung und sinnvolle Nutzung verbinden.",
+   "src": "/api/voices/clips/market-277fa44fec30f5300b"
+  },
+  {
+   "id": "market-38b1fbe2b6cc189042",
+   "place": "market",
+   "text": "Dann müssen Herkunft, Produktionsweise und Transport gemeinsam betrachtet werden.",
+   "src": "/api/voices/clips/market-38b1fbe2b6cc189042"
+  },
+  {
+   "id": "market-3d93bdba78fe75f025",
+   "place": "market",
+   "text": "Eine verständliche Vergleichbarkeit wäre daher wichtiger als bloße Vielfalt.",
+   "src": "/api/voices/clips/market-3d93bdba78fe75f025"
+  },
+  {
+   "id": "market-3e98d2e6ba630706b6",
+   "place": "market",
+   "text": "Natürlich, sie steht im Kühlregal rechts.",
+   "src": "/api/voices/clips/market-3e98d2e6ba630706b6"
+  },
+  {
+   "id": "market-3efe5c1adc615f0046",
+   "place": "market",
+   "text": "Danke für den Hinweis. Wir überprüfen die Beschilderung.",
+   "src": "/api/voices/clips/market-3efe5c1adc615f0046"
+  },
+  {
+   "id": "market-444e051d9ec17d052e",
+   "place": "market",
+   "text": "Dann sollte die Preisbildung nachvollziehbarer kommuniziert werden.",
+   "src": "/api/voices/clips/market-444e051d9ec17d052e"
+  },
+  {
+   "id": "market-45e80fe1dba0b93e0b",
+   "place": "market",
+   "text": "Ja, dieses Produkt ist günstiger.",
+   "src": "/api/voices/clips/market-45e80fe1dba0b93e0b"
+  },
+  {
+   "id": "market-48236e326baf3f0ade",
+   "place": "market",
+   "text": "Wir arbeiten bereits mit einer lokalen Organisation zusammen.",
+   "src": "/api/voices/clips/market-48236e326baf3f0ade"
+  },
+  {
+   "id": "market-482d4d976040f2a451",
+   "place": "market",
+   "text": "Dann sollten wir konkretere Informationen vom Hersteller verlangen.",
+   "src": "/api/voices/clips/market-482d4d976040f2a451"
+  },
+  {
+   "id": "market-49cb900026c4192a0b",
+   "place": "market",
+   "text": "Deshalb sollten Rabatte immer mit dem regulären Preis verglichen werden.",
+   "src": "/api/voices/clips/market-49cb900026c4192a0b"
+  },
+  {
+   "id": "market-4cbcb96f8396c18d59",
+   "place": "market",
+   "text": "Die Milch ist dort rechts.",
+   "src": "/api/voices/clips/market-4cbcb96f8396c18d59"
+  },
+  {
+   "id": "market-4e6c94da8198e628a1",
+   "place": "market",
+   "text": "Ja, ich rufe meine Kollegin aus der Abteilung.",
+   "src": "/api/voices/clips/market-4e6c94da8198e628a1"
+  },
+  {
+   "id": "market-66c61fbbceb928c769",
+   "place": "market",
+   "text": "Dann wird Reklamationsmanagement zu echter Qualitätsverbesserung.",
+   "src": "/api/voices/clips/market-66c61fbbceb928c769"
+  },
+  {
+   "id": "market-6d2687562951f080b9",
+   "place": "market",
+   "text": "Genau, die Bestätigung erhalten Sie noch heute.",
+   "src": "/api/voices/clips/market-6d2687562951f080b9"
+  },
+  {
+   "id": "market-6f0ef714cee17b4485",
+   "place": "market",
+   "text": "Sie können die Karte auch mit weniger freiwilligen Angaben nutzen.",
+   "src": "/api/voices/clips/market-6f0ef714cee17b4485"
+  },
+  {
+   "id": "market-7b7f99929d4f9f2fdd",
+   "place": "market",
+   "text": "Sehr gern. Einen schönen Tag noch.",
+   "src": "/api/voices/clips/market-7b7f99929d4f9f2fdd"
+  },
+  {
+   "id": "market-7c018d21a8ef06521c",
+   "place": "market",
+   "text": "Danke, dann kann ich die Rückgabe bearbeiten.",
+   "src": "/api/voices/clips/market-7c018d21a8ef06521c"
+  },
+  {
+   "id": "market-7d49f48080914705ef",
+   "place": "market",
+   "text": "Ich gebe Ihre Rückmeldung an unser Einkaufsteam weiter.",
+   "src": "/api/voices/clips/market-7d49f48080914705ef"
+  },
+  {
+   "id": "market-865a6a5471bf5f134f",
+   "place": "market",
+   "text": "Das wäre ein überzeugender Maßstab für glaubwürdige Qualität.",
+   "src": "/api/voices/clips/market-865a6a5471bf5f134f"
+  },
+  {
+   "id": "market-8a3ebc3b7b526e0899",
+   "place": "market",
+   "text": "Eine vereinfachte und überprüfbare Darstellung wäre sinnvoll.",
+   "src": "/api/voices/clips/market-8a3ebc3b7b526e0899"
+  },
+  {
+   "id": "market-8e460ecef14d42c3e0",
+   "place": "market",
+   "text": "Ich prüfe, welches Modell Ihren Anforderungen entspricht.",
+   "src": "/api/voices/clips/market-8e460ecef14d42c3e0"
+  },
+  {
+   "id": "market-914618addd48e4b676",
+   "place": "market",
+   "text": "Die Garantie gilt zwei Jahre.",
+   "src": "/api/voices/clips/market-914618addd48e4b676"
+  },
+  {
+   "id": "market-957967204bc525b518",
+   "place": "market",
+   "text": "Wir prüfen den Fall und bieten Ihnen eine passende Lösung an.",
+   "src": "/api/voices/clips/market-957967204bc525b518"
+  },
+  {
+   "id": "market-9e7a76010544a962cc",
+   "place": "market",
+   "text": "Nein, das Angebot gilt nur für die größere Packung.",
+   "src": "/api/voices/clips/market-9e7a76010544a962cc"
+  },
+  {
+   "id": "market-a9dd3000c518049b83",
+   "place": "market",
+   "text": "Ja, Sie können mit Karte bezahlen.",
+   "src": "/api/voices/clips/market-a9dd3000c518049b83"
+  },
+  {
+   "id": "market-b564b61bad2b34d180",
+   "place": "market",
+   "text": "Ich zeige Ihnen gern die Unterschiede im Detail.",
+   "src": "/api/voices/clips/market-b564b61bad2b34d180"
+  },
+  {
+   "id": "market-befcd4b992134a68c9",
+   "place": "market",
+   "text": "Ja, ab fünfzig Euro liefern wir kostenlos.",
+   "src": "/api/voices/clips/market-befcd4b992134a68c9"
+  },
+  {
+   "id": "market-c76377b54d761ddcaa",
+   "place": "market",
+   "text": "Das verlangt klare, verhältnismäßige Regeln.",
+   "src": "/api/voices/clips/market-c76377b54d761ddcaa"
+  },
+  {
+   "id": "market-c89998654a87a5e583",
+   "place": "market",
+   "text": "Das können wir organisieren und den Rest später zustellen.",
+   "src": "/api/voices/clips/market-c89998654a87a5e583"
+  },
+  {
+   "id": "market-ca5b9276a8463db379",
+   "place": "market",
+   "text": "Dann kommt es darauf an, was Ihnen wichtiger ist.",
+   "src": "/api/voices/clips/market-ca5b9276a8463db379"
+  },
+  {
+   "id": "market-db3b3d50e2459d8629",
+   "place": "market",
+   "text": "Dann sollten wir die gesamte Kundenreise überprüfen.",
+   "src": "/api/voices/clips/market-db3b3d50e2459d8629"
+  },
+  {
+   "id": "market-dbf3b6894e6061254e",
+   "place": "market",
+   "text": "Ja, das Brot ist noch warm.",
+   "src": "/api/voices/clips/market-dbf3b6894e6061254e"
+  },
+  {
+   "id": "market-e0e67725dcd208fd7f",
+   "place": "market",
+   "text": "Ja, das ist möglich.",
+   "src": "/api/voices/clips/market-e0e67725dcd208fd7f"
+  },
+  {
+   "id": "market-e4d68a04bd68fdf18b",
+   "place": "market",
+   "text": "Die Kasse ist am Ausgang.",
+   "src": "/api/voices/clips/market-e4d68a04bd68fdf18b"
+  },
+  {
+   "id": "market-ee1df26620424bebd5",
+   "place": "market",
+   "text": "Das kostet drei Euro.",
+   "src": "/api/voices/clips/market-ee1df26620424bebd5"
+  },
+  {
+   "id": "market-fa514d36de562a5f93",
+   "place": "market",
+   "text": "Sie erhalten gleich eine Bestätigung per E-Mail.",
+   "src": "/api/voices/clips/market-fa514d36de562a5f93"
+  },
+  {
+   "id": "market-fd14e197dc28644c31",
+   "place": "market",
+   "text": "Guten Tag, gern.",
+   "src": "/api/voices/clips/market-fd14e197dc28644c31"
+  },
+  {
+   "id": "market-fdd234077f260c1cd9",
+   "place": "market",
+   "text": "Hier braucht es klare Grenzen und Transparenz.",
+   "src": "/api/voices/clips/market-fdd234077f260c1cd9"
+  },
+  {
+   "id": "market-fe05cd782a4667d37b",
+   "place": "market",
+   "text": "Die regionalen Produkte sind gekennzeichnet; nähere Angaben stehen auf dem Etikett.",
+   "src": "/api/voices/clips/market-fe05cd782a4667d37b"
+  },
+  {
+   "id": "market-ff39bfdb4a24a6525b",
+   "place": "market",
+   "text": "Diese Verantwortung sollte sich in verbindlichen Einkaufsstandards zeigen.",
+   "src": "/api/voices/clips/market-ff39bfdb4a24a6525b"
+  },
+  {
+   "id": "work-0427f73a79ca5d9154",
+   "place": "work",
+   "text": "Dann besteht tatsächlich die Gefahr reinen Greenwashings.",
+   "src": "/api/voices/clips/work-0427f73a79ca5d9154"
+  },
+  {
+   "id": "work-099c21054a2d502d28",
+   "place": "work",
+   "text": "Vielen Dank.",
+   "src": "/api/voices/clips/work-099c21054a2d502d28"
+  },
+  {
+   "id": "work-10feae9e412869801b",
+   "place": "work",
+   "text": "Dann sollten wir entweder den Umfang reduzieren oder zusätzliche Mittel bereitstellen.",
+   "src": "/api/voices/clips/work-10feae9e412869801b"
+  },
+  {
+   "id": "work-114637418664786bae",
+   "place": "work",
+   "text": "Dann brauchen wir sofort eine Entscheidung der Projektleitung.",
+   "src": "/api/voices/clips/work-114637418664786bae"
+  },
+  {
+   "id": "work-117bf97abab9b12f64",
+   "place": "work",
+   "text": "Bitte kümmern Sie sich zuerst um den Kundenauftrag.",
+   "src": "/api/voices/clips/work-117bf97abab9b12f64"
+  },
+  {
+   "id": "work-11e393c6e8a2d3738e",
+   "place": "work",
+   "text": "Nehmen Sie sich genug Zeit.",
+   "src": "/api/voices/clips/work-11e393c6e8a2d3738e"
+  },
+  {
+   "id": "work-128a8a7457c1905376",
+   "place": "work",
+   "text": "Das ist weniger sichtbar, aber strategisch tatsächlich vorrangig.",
+   "src": "/api/voices/clips/work-128a8a7457c1905376"
+  },
+  {
+   "id": "work-1cfab9c4cd48b4f3d5",
+   "place": "work",
+   "text": "Darauf sollten wir unsere Kommunikation und Beteiligungsformate ausrichten.",
+   "src": "/api/voices/clips/work-1cfab9c4cd48b4f3d5"
+  },
+  {
+   "id": "work-1ee6a1d0e15d68b1a3",
+   "place": "work",
+   "text": "Dann brauchen wir verbindliche Grenzen trotz individueller Spielräume.",
+   "src": "/api/voices/clips/work-1ee6a1d0e15d68b1a3"
+  },
+  {
+   "id": "work-20f78be12917dff4bd",
+   "place": "work",
+   "text": "Ja, solange Sie für das Team erreichbar sind.",
+   "src": "/api/voices/clips/work-20f78be12917dff4bd"
+  },
+  {
+   "id": "work-2d591b4e3431166504",
+   "place": "work",
+   "text": "Das verbindet Klarheit mit Vertrauen.",
+   "src": "/api/voices/clips/work-2d591b4e3431166504"
+  },
+  {
+   "id": "work-32d0b1c94037b2df39",
+   "place": "work",
+   "text": "Das würde unseren Ablauf deutlich verbessern.",
+   "src": "/api/voices/clips/work-32d0b1c94037b2df39"
+  },
+  {
+   "id": "work-3b8c01da3868910cbb",
+   "place": "work",
+   "text": "Kein Problem.",
+   "src": "/api/voices/clips/work-3b8c01da3868910cbb"
+  },
+  {
+   "id": "work-3e61dc01b2e579a68b",
+   "place": "work",
+   "text": "Diese Punkte übernehmen wir in den nächsten Projektstandard.",
+   "src": "/api/voices/clips/work-3e61dc01b2e579a68b"
+  },
+  {
+   "id": "work-3f8c034d06f011cea3",
+   "place": "work",
+   "text": "Ich beziehe den Datenschutzbeauftragten ein.",
+   "src": "/api/voices/clips/work-3f8c034d06f011cea3"
+  },
+  {
+   "id": "work-4039018fa3049f658f",
+   "place": "work",
+   "text": "Richtig, bitte informieren Sie auch das restliche Team.",
+   "src": "/api/voices/clips/work-4039018fa3049f658f"
+  },
+  {
+   "id": "work-4051ecfda67745f21d",
+   "place": "work",
+   "text": "Bereiten Sie bitte einen konkreten Vorschlag mit Zahlen vor.",
+   "src": "/api/voices/clips/work-4051ecfda67745f21d"
+  },
+  {
+   "id": "work-48848d59a24067c6f8",
+   "place": "work",
+   "text": "Dann ergänzen wir sie um qualitative Kriterien.",
+   "src": "/api/voices/clips/work-48848d59a24067c6f8"
+  },
+  {
+   "id": "work-4a5553ecca54e8fcde",
+   "place": "work",
+   "text": "Dann vergleichen wir die Gesamtkosten über mehrere Jahre.",
+   "src": "/api/voices/clips/work-4a5553ecca54e8fcde"
+  },
+  {
+   "id": "work-4dc129595846cdfa39",
+   "place": "work",
+   "text": "Ja, für zehn Minuten.",
+   "src": "/api/voices/clips/work-4dc129595846cdfa39"
+  },
+  {
+   "id": "work-609ca8c3d312f21ed5",
+   "place": "work",
+   "text": "Frau Keller übernimmt die Kontrolle.",
+   "src": "/api/voices/clips/work-609ca8c3d312f21ed5"
+  },
+  {
+   "id": "work-6597405d85b335117f",
+   "place": "work",
+   "text": "Ja, bis morgen ist es in Ordnung.",
+   "src": "/api/voices/clips/work-6597405d85b335117f"
+  },
+  {
+   "id": "work-6949c65562d172b7b3",
+   "place": "work",
+   "text": "Bitte bearbeiten Sie diese Aufgabe.",
+   "src": "/api/voices/clips/work-6949c65562d172b7b3"
+  },
+  {
+   "id": "work-6a7e84bf0754f49217",
+   "place": "work",
+   "text": "Wir halten Ihre Befugnisse schriftlich fest.",
+   "src": "/api/voices/clips/work-6a7e84bf0754f49217"
+  },
+  {
+   "id": "work-6becafd66b70217cca",
+   "place": "work",
+   "text": "Ja, ich sehe ihn mir nach der Besprechung an.",
+   "src": "/api/voices/clips/work-6becafd66b70217cca"
+  },
+  {
+   "id": "work-6f49839bcb13be6c40",
+   "place": "work",
+   "text": "Danke, das ist konkret und hilfreich.",
+   "src": "/api/voices/clips/work-6f49839bcb13be6c40"
+  },
+  {
+   "id": "work-81db641460978f70aa",
+   "place": "work",
+   "text": "Ja, machen wir zehn Minuten Pause.",
+   "src": "/api/voices/clips/work-81db641460978f70aa"
+  },
+  {
+   "id": "work-904a3b21ebe07a103c",
+   "place": "work",
+   "text": "Dann müssen Führungskräfte diese Offenheit glaubwürdig vorleben.",
+   "src": "/api/voices/clips/work-904a3b21ebe07a103c"
+  },
+  {
+   "id": "work-9c0a105de1437f7dfb",
+   "place": "work",
+   "text": "Die Besprechung beginnt um zehn Uhr.",
+   "src": "/api/voices/clips/work-9c0a105de1437f7dfb"
+  },
+  {
+   "id": "work-a0281e5ae483fa80da",
+   "place": "work",
+   "text": "Das ist ein anspruchsvoller, aber konsistenter Rahmen.",
+   "src": "/api/voices/clips/work-a0281e5ae483fa80da"
+  },
+  {
+   "id": "work-a5c4b4877ff4202189",
+   "place": "work",
+   "text": "Das sollte in verbindlichen Leitlinien festgehalten werden.",
+   "src": "/api/voices/clips/work-a5c4b4877ff4202189"
+  },
+  {
+   "id": "work-b68f098d21358cda35",
+   "place": "work",
+   "text": "Das schafft eine sachliche Grundlage für das Gespräch.",
+   "src": "/api/voices/clips/work-b68f098d21358cda35"
+  },
+  {
+   "id": "work-b7a0471e249b377047",
+   "place": "work",
+   "text": "Unter dieser Voraussetzung kann ich dem Termin zustimmen.",
+   "src": "/api/voices/clips/work-b7a0471e249b377047"
+  },
+  {
+   "id": "work-b9786d67404bacc637",
+   "place": "work",
+   "text": "Dann priorisieren wir neu und verschieben weniger dringende Aufgaben.",
+   "src": "/api/voices/clips/work-b9786d67404bacc637"
+  },
+  {
+   "id": "work-bc6688abb024f8b98d",
+   "place": "work",
+   "text": "So bleibt die Entscheidung trotz Unsicherheit überprüfbar.",
+   "src": "/api/voices/clips/work-bc6688abb024f8b98d"
+  },
+  {
+   "id": "work-c264aaff34521d3f3d",
+   "place": "work",
+   "text": "Das passt gut zu Ihren Aufgaben. Reichen Sie den Antrag ein.",
+   "src": "/api/voices/clips/work-c264aaff34521d3f3d"
+  },
+  {
+   "id": "work-c6111cc2311aba99f6",
+   "place": "work",
+   "text": "Gute Besserung, geben Sie uns morgen kurz Bescheid.",
+   "src": "/api/voices/clips/work-c6111cc2311aba99f6"
+  },
+  {
+   "id": "work-c7a007a90418d97c42",
+   "place": "work",
+   "text": "Dann reicht ein moderiertes Gespräch allein tatsächlich nicht aus.",
+   "src": "/api/voices/clips/work-c7a007a90418d97c42"
+  },
+  {
+   "id": "work-c8b726eb9a41ca4de5",
+   "place": "work",
+   "text": "Wir brauchen also ein verkürztes, aber belastbares Entscheidungsverfahren.",
+   "src": "/api/voices/clips/work-c8b726eb9a41ca4de5"
+  },
+  {
+   "id": "work-cd686df24baffcb377",
+   "place": "work",
+   "text": "Das ist sinnvoll. Bleiben Sie dabei sachlich.",
+   "src": "/api/voices/clips/work-cd686df24baffcb377"
+  },
+  {
+   "id": "work-cec2711c9b812f2a87",
+   "place": "work",
+   "text": "Bitte beginnen Sie mit dieser Aufgabe.",
+   "src": "/api/voices/clips/work-cec2711c9b812f2a87"
+  },
+  {
+   "id": "work-d1c0e3c7594da135fb",
+   "place": "work",
+   "text": "Testen wir das Format zunächst einen Monat lang.",
+   "src": "/api/voices/clips/work-d1c0e3c7594da135fb"
+  },
+  {
+   "id": "work-de37d040685ca9e73e",
+   "place": "work",
+   "text": "Guten Morgen, sehr gut.",
+   "src": "/api/voices/clips/work-de37d040685ca9e73e"
+  },
+  {
+   "id": "work-e4dd23f92e62f74820",
+   "place": "work",
+   "text": "Dann fordern Sie die Unterlagen bitte heute noch an.",
+   "src": "/api/voices/clips/work-e4dd23f92e62f74820"
+  },
+  {
+   "id": "work-e79c649558e40652f0",
+   "place": "work",
+   "text": "Das ergibt ein deutlich vollständigeres Bild.",
+   "src": "/api/voices/clips/work-e79c649558e40652f0"
+  },
+  {
+   "id": "work-ed184990df72859a2f",
+   "place": "work",
+   "text": "Eine tragfähige Lösung muss diese Interessen sichtbar gewichten.",
+   "src": "/api/voices/clips/work-ed184990df72859a2f"
+  },
+  {
+   "id": "work-f4bd874d153c7868ce",
+   "place": "work",
+   "text": "Ja, ich zeige es Ihnen.",
+   "src": "/api/voices/clips/work-f4bd874d153c7868ce"
+  },
+  {
+   "id": "work-f9f485fc2147d7ee44",
+   "place": "work",
+   "text": "Perfekt, dann können wir anfangen.",
+   "src": "/api/voices/clips/work-f9f485fc2147d7ee44"
+  },
+  {
+   "id": "work-fc1ba1bebeed0881fe",
+   "place": "work",
+   "text": "Damit vermeiden wir Spekulationen, ohne falsche Sicherheit zu erzeugen.",
+   "src": "/api/voices/clips/work-fc1ba1bebeed0881fe"
+  }
+ ]
+}

@@ -1,0 +1,137 @@
+/* Legram 2.0 — intentional motion states only */
+
+.screen.active{animation:screenReveal .32s var(--ease-out) both}
+.reels-screen.active,.game-screen.active,.sentence-game-screen.active{animation:none}
+
+.reel-card.is-current .reel-video{animation:reelSettle .6s var(--ease-out) both}
+.world-hero{animation:heroReveal .55s var(--ease-spring) both}
+.level-card{animation:cardReveal .42s var(--ease-out) both}
+.level-card:nth-child(2n){animation-delay:.045s}
+.place-card{animation:cardReveal .5s var(--ease-out) both}
+.place-card:nth-child(2){animation-delay:.06s}.place-card:nth-child(3){animation-delay:.12s}
+
+/* World travel */
+.le-sprite.running .entity-motion,.le-sprite.passing .entity-motion{animation:leStride .58s cubic-bezier(.37,.02,.25,1) infinite}
+.le-sprite.running .entity-visual,.le-sprite.passing .entity-visual{animation:leRunFrames .58s step-end infinite}
+.le-sprite.running .entity-dust,.le-sprite.passing .entity-dust{animation:footDust .58s var(--ease-out) infinite}
+
+/* The enemy waits: only body breathing, no attack frames during approach. */
+.monster.boss-sprite .entity-visual{background-position:0 0}
+.monster.boss-sprite .entity-motion{animation:monsterBreath 2.9s ease-in-out infinite}
+.monster.boss-sprite.entering .entity-motion{animation:monsterEnter .48s var(--ease-spring) both}
+
+/* Correct answer: Le travels through the strike, enemy only reacts. */
+.le-sprite.attack .entity-motion{animation:leAttack .8s cubic-bezier(.13,.82,.2,1) both}
+.le-sprite.attack .entity-visual{background-image:url('../assets/game/frog-attack.png');background-size:124%;background-position:center;transform:translate3d(0,16%,0);animation:none}
+.le-sprite.attack .entity-shadow{animation:leAttackShadow .8s cubic-bezier(.13,.82,.2,1) both}
+.monster.boss-sprite.hit .entity-motion{animation:monsterImpact .7s var(--ease-out) both}
+.monster.boss-sprite.hit .entity-visual{background-position:0 0;animation:none}
+.monster.boss-sprite.defeated .entity-motion{animation:monsterDefeat .9s cubic-bezier(.2,.75,.3,1) both}
+.monster.boss-sprite.defeated .entity-shadow{animation:shadowFade .9s ease-out both}
+
+/* Wrong answer: only now does the monster use attack drawings and lunge. */
+.le-sprite.hurt .entity-motion{animation:leHurt .8s var(--ease-out) both}
+.le-sprite.hurt .entity-visual{background-image:url('../assets/game/frog-hurt.png');background-size:124%;background-position:center;transform:translate3d(0,16%,0);animation:none}
+.monster.boss-sprite.attacking .entity-motion{animation:monsterStrike .98s cubic-bezier(.14,.78,.2,1) both}
+.monster.boss-sprite.attacking .entity-visual{animation:monsterAttackFrames .98s step-end both}
+.monster.boss-sprite.attacking .entity-shadow{animation:monsterStrikeShadow .98s cubic-bezier(.14,.78,.2,1) both}
+.monster.boss-sprite.left-behind .entity-motion{animation:monsterRecover .78s var(--ease-out) both}
+.monster.boss-sprite.left-behind .entity-visual{background-position:0 0;animation:none}
+
+.arena.correct-impact{animation:cameraImpact .34s ease-out}
+.arena.wrong-impact{animation:cameraDamage .42s ease-out}
+.arena.combo-2 .le-sprite.attack .entity-motion{filter:drop-shadow(0 0 18px #c084fc)}
+.arena.combo-3 .le-sprite.attack .entity-motion{filter:drop-shadow(0 0 26px #f5d0fe) brightness(1.08)}
+
+.petals i{animation:petalFall 8s linear infinite}
+.mic.listening::before,.mic.listening::after{content:"";position:absolute;inset:-7px;border:1px solid #c084fc78;border-radius:50%;opacity:0;pointer-events:none;animation:micRing 1.55s ease-out infinite}
+.mic.listening::after{animation-delay:.55s}
+.sentence-mic.listening .sentence-mic-icon{animation:voiceReady 1.45s ease-in-out infinite}
+
+/* Full-portrait viseme crossfade. Both layers are complete aligned portraits. */
+.sentence-npc .npc-pose-rest{opacity:1}
+.sentence-npc .npc-pose-talk{display:block;opacity:var(--npc-blend,0)}
+.sentence-npc[data-prev-viseme="closed"] .npc-pose-talk{background-position:0 0}
+.sentence-npc[data-prev-viseme="wide"] .npc-pose-talk{background-position:100% 0}
+.sentence-npc[data-prev-viseme="open"] .npc-pose-talk{background-position:0 100%}
+.sentence-npc[data-prev-viseme="round"] .npc-pose-talk{background-position:100% 100%}
+.sentence-npc[data-motion-mode="speak"]{filter:drop-shadow(0 24px 26px #0009) saturate(1.035)}
+.sentence-npc[data-motion-mode="speak"]~.sentence-npc-shadow{filter:blur(6px)}
+.sentence-npc[data-motion-mode="speak"] .npc-pose-rest{filter:drop-shadow(0 22px 20px #0007)}
+.character-focus:has(.sentence-npc[data-motion-mode="speak"]) .portrait-light{animation:portraitVoice 1.35s ease-in-out infinite}
+.character-focus:has(.sentence-npc[data-motion-mode="speak"]) .voice-presence i{animation:voiceBar .62s ease-in-out infinite}
+.character-focus:has(.sentence-npc[data-motion-mode="speak"]) .voice-presence i:nth-child(2){animation-delay:-.22s}.character-focus:has(.sentence-npc[data-motion-mode="speak"]) .voice-presence i:nth-child(3){animation-delay:-.4s}
+.scene-backdrop{animation:sceneDrift 18s ease-in-out infinite alternate}
+.npc-reply.show{animation:replyReveal .38s var(--ease-spring) both}
+.npc-reply.speaking{box-shadow:var(--shadow-md),0 0 0 1px color-mix(in srgb,var(--sentence-accent),transparent 62%)}
+.npc-reply.speaking button svg{animation:voiceGlyph .76s ease-in-out infinite}
+.sentence-feedback.show{animation:feedbackReveal .3s var(--ease-out) both}
+.sentence-complete.show .complete-le{animation:completionPose 1.4s var(--ease-spring) both}
+
+.victory-overlay.show .victory-copy{animation:victoryCopy .7s var(--ease-spring) both}
+.victory-overlay.show .victory-hero{animation:victoryFrames 4.7s step-end both}
+.victory-overlay.show .victory-ring{animation:victoryRing 1.4s ease-out both}
+.victory-overlay.show .victory-particles i{animation:victoryParticle 1.5s var(--ease-out) infinite}
+.victory-overlay.show .victory-particles i:nth-child(2){--vx:120px;--vy:-70px;animation-delay:.12s}.victory-overlay.show .victory-particles i:nth-child(3){--vx:-130px;--vy:-90px;animation-delay:.28s}.victory-overlay.show .victory-particles i:nth-child(4){--vx:190px;--vy:-20px;animation-delay:.44s}.victory-overlay.show .victory-particles i:nth-child(5){--vx:-190px;--vy:-35px;animation-delay:.6s}.victory-overlay.show .victory-particles i:nth-child(6){--vx:80px;--vy:-145px;animation-delay:.76s}.victory-overlay.show .victory-particles i:nth-child(7){--vx:-72px;--vy:-155px;animation-delay:.92s}.victory-overlay.show .victory-particles i:nth-child(8){--vx:155px;--vy:-118px;animation-delay:1.08s}
+
+@keyframes screenReveal{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+@keyframes reelSettle{from{transform:scale(1.025)}to{transform:scale(1)}}
+@keyframes heroReveal{from{opacity:.3;transform:translateY(8px) scale(.985)}to{opacity:1;transform:none}}
+@keyframes cardReveal{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
+
+@keyframes leRunFrames{
+  0%,16.665%{background-position:0 0}
+  16.666%,33.332%{background-position:20% 0}
+  33.333%,49.999%{background-position:40% 0}
+  50%,66.665%{background-position:60% 0}
+  66.666%,83.332%{background-position:80% 0}
+  83.333%,100%{background-position:100% 0}
+}
+@keyframes leStride{
+  0%,100%{transform:translate3d(0,0,0) rotate(.25deg) scaleY(.996)}
+  18%{transform:translate3d(0,-2px,0) rotate(-.25deg) scaleY(1.006)}
+  44%{transform:translate3d(0,-5px,0) rotate(-.5deg) scaleY(1.016)}
+  69%{transform:translate3d(0,-2.4px,0) rotate(.15deg) scaleY(1.006)}
+  86%{transform:translate3d(0,-.4px,0) rotate(.4deg) scaleY(.998)}
+}
+@keyframes footDust{0%{opacity:0;transform:translate3d(2px,3px,0) scale(.38)}18%{opacity:.55}55%{opacity:.24}100%{opacity:0;transform:translate3d(-28px,-3px,0) scale(1.12)}}
+@keyframes monsterBreath{0%,100%{transform:translate3d(0,0,0) scaleY(1)}50%{transform:translate3d(0,-2px,0) scaleY(1.006)}}
+@keyframes monsterEnter{from{opacity:0;transform:translate3d(0,2px,0) scale(.94);filter:blur(2px)}to{opacity:1;transform:none;filter:none}}
+@keyframes leAttack{0%{transform:translate3d(0,0,0) rotate(0) scale(1)}15%{transform:translate3d(-4px,1px,0) rotate(-2deg) scale(.99)}44%{transform:translate3d(clamp(14px,2.4vw,32px),-5px,0) rotate(1.5deg) scale(1.035)}62%{transform:translate3d(clamp(20px,3.2vw,42px),-3px,0) rotate(2.2deg) scale(1.05)}79%{transform:translate3d(clamp(10px,1.8vw,24px),-1px,0) rotate(-1deg) scale(1.018)}100%{transform:none}}
+@keyframes leAttackShadow{0%,100%{transform:translateX(0) scale(1);opacity:1}60%{transform:translateX(clamp(20px,3.2vw,42px)) scale(.9);opacity:.76}}
+@keyframes monsterImpact{0%{transform:none;filter:brightness(1)}18%{transform:translate3d(7px,-2px,0) rotate(3deg);filter:brightness(2.1)}42%{transform:translate3d(-8px,1px,0) rotate(-3.5deg);filter:brightness(1.2)}70%{transform:translate3d(3px,0,0) rotate(1deg);filter:brightness(1.05)}100%{transform:none;filter:brightness(1)}}
+@keyframes monsterDefeat{0%{transform:none;opacity:1;filter:brightness(2.2) drop-shadow(0 0 28px #fff)}28%{transform:translate3d(3px,5px,0) rotate(4deg) scale(.98);opacity:1}63%{transform:translate3d(0,26px,0) rotate(-9deg) scale(.78);opacity:.7}100%{transform:translate3d(0,55px,0) rotate(-15deg) scale(.4);opacity:0;filter:brightness(.65) saturate(.2)}}
+@keyframes shadowFade{0%{opacity:1;transform:scale(1)}100%{opacity:0;transform:scale(.45)}}
+@keyframes leHurt{0%{transform:none;filter:brightness(1)}22%{transform:translate3d(-12px,-2px,0) rotate(-6deg);filter:brightness(1.8)}56%{transform:translate3d(-23px,2px,0) rotate(-10deg);filter:brightness(1.12)}100%{transform:translate3d(-6px,0,0) rotate(-3deg);filter:brightness(1)}}
+@keyframes monsterAttackFrames{0%,16%{background-position:0 0}17%,32%{background-position:20% 0}33%,48%{background-position:40% 0}49%,64%{background-position:60% 0}65%,82%{background-position:80% 0}83%,100%{background-position:100% 0}}
+@keyframes monsterStrike{0%{transform:none}18%{transform:translate3d(5px,-1px,0) rotate(1deg)}52%{transform:translate3d(clamp(-46px,-5vw,-24px),-2px,0) rotate(-2deg)}71%{transform:translate3d(clamp(-30px,-3.5vw,-17px),0,0) rotate(1deg)}100%{transform:none}}
+@keyframes monsterStrikeShadow{0%,100%{transform:translateX(0) scale(1);opacity:1}52%{transform:translateX(clamp(-46px,-5vw,-24px)) scale(.88);opacity:.74}}
+@keyframes monsterRecover{from{transform:translate3d(-8px,0,0);filter:brightness(1.08)}to{transform:none;filter:brightness(.92)}}
+@keyframes cameraImpact{0%,100%{transform:none}24%{transform:translate3d(-3px,1px,0)}48%{transform:translate3d(3px,-1px,0)}72%{transform:translate3d(-1px,0,0)}}
+@keyframes cameraDamage{0%,100%{transform:none}18%{transform:translate3d(5px,0,0)}36%{transform:translate3d(-5px,2px,0)}58%{transform:translate3d(3px,-1px,0)}78%{transform:translate3d(-2px,0,0)}}
+@keyframes petalFall{0%{transform:translate3d(0,-4vh,0) rotate(0);opacity:0}8%{opacity:.55}100%{transform:translate3d(-70px,110vh,0) rotate(540deg);opacity:0}}
+@keyframes micRing{0%{opacity:.65;transform:scale(.72)}75%,100%{opacity:0;transform:scale(1.25)}}
+@keyframes voiceReady{50%{transform:scale(.94);box-shadow:0 4px 12px #0005,0 0 0 5px color-mix(in srgb,var(--sentence-accent),transparent 78%)}}
+@keyframes sceneDrift{from{transform:scale(1.04) translate3d(-.6%,.2%,0)}to{transform:scale(1.085) translate3d(.8%,-.5%,0)}}
+@keyframes portraitVoice{50%{opacity:1;transform:translateX(50%) scale(1.04);filter:blur(7px)}}
+@keyframes voiceBar{0%,100%{transform:scaleY(.55);opacity:.65}50%{transform:scaleY(1.35);opacity:1}}
+@keyframes replyReveal{from{opacity:0;transform:translateX(50%) translateY(10px) scale(.98)}to{opacity:1;transform:translateX(50%) translateY(0) scale(1)}}
+@keyframes feedbackReveal{from{opacity:0;transform:translateX(50%) translateY(-5px)}to{opacity:1;transform:translateX(50%) translateY(0)}}
+@keyframes voiceGlyph{50%{transform:scale(.9);opacity:.72}}
+@keyframes completionPose{0%{opacity:0;transform:translateY(22px) scale(.94)}70%{transform:translateY(-4px) scale(1.02)}100%{opacity:1;transform:none}}
+@keyframes particleBurst{from{opacity:1;transform:translate(-50%,-50%) scale(.45)}to{opacity:0;transform:translate(calc(-50% + var(--dx)),calc(-50% + var(--dy))) scale(1.15)}}
+@keyframes deathFlash{0%{opacity:0;transform:translate(-50%,-50%) scale(.1)}20%{opacity:1}100%{opacity:0;transform:translate(-50%,-50%) scale(8)}}
+@keyframes resultSpin{to{transform:rotate(360deg)}}
+@keyframes victoryCopy{from{opacity:0;transform:translateY(-14px) scale(.94)}to{opacity:1;transform:none}}
+@keyframes victoryFrames{0%,16%{background-position:0 center}17%,32%{background-position:20% center}33%,48%{background-position:40% center}49%,64%{background-position:60% center}65%,82%{background-position:80% center}83%,100%{background-position:100% center}}
+@keyframes victoryRing{from{opacity:0;transform:translateX(50%) scale(.4)}to{opacity:1;transform:translateX(50%) scale(1)}}
+@keyframes victoryParticle{0%{opacity:0;transform:translate(0,0) scale(.4)}20%{opacity:1}100%{opacity:0;transform:translate(var(--vx,0),var(--vy,-120px)) scale(1.2)}}
+
+@media (min-width:761px){
+  @keyframes replyReveal{from{opacity:0;transform:translateY(10px) scale(.98)}to{opacity:1;transform:none}}
+  @keyframes feedbackReveal{from{opacity:0;transform:translateY(-5px)}to{opacity:1;transform:none}}
+}
+
+@media (prefers-reduced-motion:reduce){
+  .scene-backdrop,.result-rays,.victory-rays{animation:none}
+}
