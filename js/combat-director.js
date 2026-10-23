@@ -76,6 +76,7 @@
       const all = [this.heroMotion, this.heroVisual, this.heroShadow, this.monsterMotion, this.monsterVisual, this.monsterShadow, this.arena, this.flash, this.vignette, this.speedlines, this.callout];
       g.killTweensOf(all);
       g.set([this.heroMotion, this.heroVisual, this.heroShadow, this.monsterMotion, this.monsterVisual, this.monsterShadow, this.arena], { clearProps: 'transform,filter,opacity,backgroundPosition' });
+      g.set(this.arena, { '--sx': '0px', '--sy': '0px' });
       g.set([this.flash, this.vignette, this.speedlines, this.callout], { opacity: 0 });
       this.layer.querySelectorAll('.fx-temp').forEach(n => n.remove());
       this.hero.querySelectorAll('.fx-ghost').forEach(n => n.remove());
@@ -83,19 +84,18 @@
     }
 
     // ---------- shared FX ----------
-    shake(strength = 8, duration = 0.32, focus = null, zoom = 1.05) {
-      const g = this.g, s = strength * this.amp, steps = 8, keyframes = [];
+    /* Camera shake moves the world and the fighters only (via --sx/--sy, read
+       by CSS `translate`), so the question card, feedback and mic never jitter. */
+    shake(strength = 8, duration = 0.32) {
+      const g = this.g, s = strength * this.amp * .7, steps = 7, keyframes = [];
       for (let i = 0; i < steps; i++) {
         const k = Math.pow(1 - i / steps, 1.6);
-        keyframes.push({ x: rand(-s, s) * k, y: rand(-s * .6, s * .6) * k, rotation: rand(-.6, .6) * k * this.amp, duration: duration / (steps + 1) });
+        keyframes.push({ '--sx': `${(rand(-s, s) * k).toFixed(1)}px`, '--sy': `${(rand(-s * .5, s * .5) * k).toFixed(1)}px`, duration: duration / (steps + 1) });
       }
-      keyframes.push({ x: 0, y: 0, rotation: 0, duration: duration / (steps + 1) });
+      keyframes.push({ '--sx': '0px', '--sy': '0px', duration: duration / (steps + 1) });
       const tl = g.timeline();
+      if (this.reduced.matches) return tl;
       tl.to(this.arena, { keyframes, ease: 'none' }, 0);
-      if (focus && !this.reduced.matches) {
-        tl.fromTo(this.arena, { scale: 1 }, { scale: zoom, duration: .05, ease: 'power2.out', transformOrigin: `${focus.cx}px ${focus.cy}px`, immediateRender: false }, 0)
-          .to(this.arena, { scale: 1, duration: .5, ease: 'expo.out' }, .05);
-      }
       return tl;
     }
 
@@ -136,7 +136,7 @@
       c.className = `fx-callout ${kind}`;
       c.textContent = text;
       g.killTweensOf(c);
-      g.fromTo(c, { opacity: 0, scale: 2.2, rotation: -6, y: 0 }, { opacity: 1, scale: 1, rotation: -3, duration: .22, ease: 'back.out(2.5)' });
+      g.fromTo(c, { opacity: 0, scale: .92, rotation: 0, y: 6 }, { opacity: 1, scale: 1, y: 0, duration: .24, ease: 'power2.out' });
       g.to(c, { opacity: 0, y: -18, duration: .3, delay: .8, ease: 'power1.in' });
     }
 
@@ -202,10 +202,10 @@
         .to(this.monsterMotion, { scaleY: 1, scaleX: 1, y: 0, duration: .35, ease: 'power2.inOut' }, 'land+=.9')
         .add(() => this.frame(FRAME.idle), 'land+=1.0');
       if (name) {
-        const banner = this.spawn('fx-banner', 0, 0, `<small>الزعيم</small><b>${esc(name)}</b><em>${hp} ضربات للفوز</em>`);
+        const banner = this.spawn('fx-banner', this.arena.clientWidth / 2, this.arena.clientHeight * .42, `<small>الزعيم</small><b>${esc(name)}</b><em>${hp} ضربات للفوز</em>`);
         g.set(banner, { opacity: 0 });
-        tl.fromTo(banner, { x: 260, opacity: 0, skewX: -12 }, { x: 0, opacity: 1, skewX: 0, duration: .32, ease: 'power3.out', immediateRender: false }, 'land+=.15')
-          .to(banner, { x: -260, opacity: 0, duration: .3, ease: 'power3.in', onComplete: () => banner.remove() }, 'land+=1.35');
+        tl.fromTo(banner, { y: 10, opacity: 0 }, { y: 0, opacity: 1, duration: .3, ease: 'power2.out', immediateRender: false }, 'land+=.15')
+          .to(banner, { opacity: 0, duration: .3, ease: 'power1.in', onComplete: () => banner.remove() }, 'land+=1.35');
       }
       tl.add(() => this.idle(), 'land+=1.1');
       return tl;
@@ -249,6 +249,8 @@
       const travel = Math.min(this.gap() + 26, 260), target = this.rect(this.monsterMotion);
       const hit = { cx: target.cx, cy: target.y + target.h * .5 };
       const trail = this.ghostTrail(crit ? 6 : 4);
+      const room = Math.max(0, this.arena.clientWidth - (target.x + target.w) - 6);
+      const knock = Math.min(crit ? 40 : 28, room);
       g.set([this.heroMotion, this.monsterMotion], { transformOrigin: '50% 96%' });
 
       // anticipation
@@ -277,9 +279,9 @@
           const ring = this.spawn('fx-ring', hit.cx, hit.cy);
           g.fromTo(ring, { scale: .2, opacity: .95 }, { scale: crit ? 3 : 2.2, opacity: 0, duration: .45, ease: 'expo.out', onComplete: () => ring.remove() });
           this.sparks(hit.cx, hit.cy, { count: crit ? 22 : 14, color: crit ? '#fde68a' : '#f5d0fe', spread: crit ? 150 : 110 });
-          if (crit) { this.say('ضربة حاسمة!', 'crit'); this.sfx?.critCallout(); }
+          if (crit) this.sfx?.critCallout();
         }, 'impact')
-        .add(this.flashScreen('#ffffff', crit || lethal ? .8 : .5, .22), 'impact')
+        .add(this.flashScreen('#ffffff', crit || lethal ? .22 : .12, .18), 'impact')
         .set(this.monsterVisual, { filter: 'brightness(3.4) saturate(0)' }, 'impact')
         .add(this.shake(crit || lethal ? 14 : 9 + Math.min(combo, 4), .38, hit, crit || lethal ? 1.08 : 1.05), 'impact')
         .addLabel('react', `impact+=${lethal ? .22 : crit ? .12 : .07}`);   // hit-stop
@@ -287,16 +289,14 @@
       // reaction
       tl.set(this.monsterVisual, { filter: 'brightness(1.7)' }, 'react')
         .to(this.monsterVisual, { filter: 'brightness(1)', duration: .25 }, 'react+=.05')
-        .to(this.monsterMotion, { x: '+=' + (crit ? 52 : 36), y: -12, rotation: 14, scaleX: .9, duration: .16, ease: 'power3.out' }, 'react')
-        .to(this.monsterMotion, { y: 0, rotation: 5, duration: .22, ease: 'bounce.out' }, 'react+=.16')
-        .to(this.heroMotion, { x: travel + 16, scaleX: 1, scaleY: 1, rotation: 0, duration: .14, ease: 'power2.out' }, 'react')
-        .add(() => {
-          const pop = this.spawn('fx-pop', hit.cx, target.y + 6, `<b lang="de" dir="ltr">${esc(word)}</b>${combo > 1 ? `<em>كومبو ×${combo}</em>` : ''}`);
-          g.fromTo(pop, { y: 12, scale: .4, opacity: 0 }, { y: -22, scale: 1, opacity: 1, duration: .3, ease: 'back.out(3)' });
-          g.to(pop, { y: -52, opacity: 0, duration: .4, ease: 'power1.in', delay: .65, onComplete: () => pop.remove() });
-        }, 'react');
+        .to(this.monsterMotion, { x: '+=' + knock, y: -10, rotation: 8, scaleX: .94, duration: .16, ease: 'power3.out' }, 'react')
+        .to(this.monsterMotion, { y: 0, rotation: 3, duration: .2, ease: 'power2.out' }, 'react+=.16')
+        .to(this.heroMotion, { x: lethal ? 0 : travel + 16, scaleX: 1, scaleY: 1, rotation: 0, duration: lethal ? .34 : .14, ease: 'power2.out' }, 'react')
+        .to(this.heroShadow, { x: lethal ? 0 : travel + 16, scaleX: 1, opacity: 1, duration: lethal ? .34 : .14, ease: 'power2.out' }, 'react')
+        ;
 
       if (lethal) {
+        tl.add(() => this.pose('idle'), 'react+=.3');
         tl.addLabel('death', 'react+=.3')
           .add(() => { tl.timeScale(.45); onDeath?.(); this.sfx?.shatter(); }, 'death')
           .to(this.monsterVisual, { filter: 'brightness(4) saturate(0)', duration: .08, yoyo: true, repeat: 5 }, 'death')
@@ -308,14 +308,14 @@
             this.sparks(r.cx, r.cy, { count: 20, color: '#c084fc', spread: 160 });
             this.dust(r.cx, r.y + r.h * .9, 16);
           }, 'death+=.55')
-          .add(this.flashScreen('#ffffff', .9, .5), 'death+=.55')
+          .add(this.flashScreen('#ffffff', .3, .4), 'death+=.55')
           .add(this.shake(16, .6, this.rect(this.monsterMotion), 1.1), 'death+=.55')
           .to(this.monsterMotion, { scaleX: 1.3, scaleY: .2, y: 30, opacity: 0, duration: .32, ease: 'power3.in' }, 'death+=.58')
           .to(this.monsterShadow, { scale: .1, opacity: 0, duration: .4, ease: 'power2.in' }, 'death+=.58')
-          .to(this.heroMotion, { x: travel * .4, duration: .3, ease: 'power2.out' }, 'death+=.7')
+          
           .add(() => { this.pose('victory'); this.say('انتصار!', 'win'); }, 'death+=.95')
           .to(this.heroMotion, { y: -46, duration: .26, ease: 'power2.out', yoyo: true, repeat: 1 }, 'death+=.95')
-          .to(this.heroShadow, { x: travel * .4, scale: .7, duration: .26, yoyo: true, repeat: 1 }, 'death+=.95')
+          .to(this.heroShadow, { x: 0, scale: .7, duration: .26, yoyo: true, repeat: 1 }, 'death+=.95')
           .add(() => onSettled?.(), 'death+=1.6');
         return tl;
       }
@@ -323,7 +323,7 @@
       // follow-through: flip back home
       tl.addLabel('home', 'react+=.24')
         .add(() => this.pose('running'), 'home')
-        .to(this.heroMotion, { keyframes: [{ x: travel * .5, y: -38, rotation: crit ? -180 : -20, duration: .22, ease: 'power2.out' }, { x: 0, y: 0, rotation: crit ? -360 : 0, duration: .2, ease: 'power2.in' }] }, 'home')
+        .to(this.heroMotion, { keyframes: [{ x: travel * .5, y: crit ? -30 : -22, rotation: -6, duration: .22, ease: 'power2.out' }, { x: 0, y: 0, rotation: 0, duration: .2, ease: 'power2.in' }] }, 'home')
         .to(this.heroShadow, { x: 0, scaleX: 1, opacity: 1, duration: .42, ease: 'power2.inOut' }, 'home')
         .set(this.heroMotion, { rotation: 0 }, 'home+=.43')
         .add(() => { this.pose('idle'); this.sfx?.footstep(); const r = this.rect(this.heroMotion); this.dust(r.cx, r.y + r.h * .95, 4, -1); }, 'home+=.42')
@@ -363,10 +363,10 @@
           }
           this.sparks(victim.cx, victim.cy, { count: 14, color: '#ff5a7a', spread: 110, dir: -1 });
         }, 'impact')
-        .add(this.flashScreen('#ff2d55', .45, .32), 'impact')
+        .add(this.flashScreen('#ff2d55', .14, .28), 'impact')
         .set(this.heroVisual, { filter: 'brightness(2.2) sepia(1) saturate(7) hue-rotate(-45deg)' }, 'impact')
         .add(this.shake(13, .45, victim, 1.06), 'impact')
-        .fromTo(this.vignette, { opacity: .9 * Math.max(.5, this.amp) }, { opacity: 0, duration: .8, ease: 'power2.out', immediateRender: false }, 'impact')
+        .fromTo(this.vignette, { opacity: .5 * Math.max(.5, this.amp) }, { opacity: 0, duration: .6, ease: 'power2.out', immediateRender: false }, 'impact')
         .addLabel('react', `impact+=${lethal ? .2 : .08}`);   // hit-stop
 
       if (lethal) {

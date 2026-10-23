@@ -12,6 +12,94 @@ let activeDialog=null,dialogReturnFocus=null,cloudSync=null;
 const ENCOUNTER_MS=3000;
 const save=()=>{const saved=store.save();cloudSync?.schedule(saved);return saved};
 const {normalizeGerman:normalize,isCorrectAnswer,editDistance}=LegramCore;
+
+/* ---------- السلسلة اليومية ---------- */
+/* `streak` أعلاه عدّاد الضربات المتتالية داخل المعركة — هذا شيء آخر تمامًا. */
+const dailyStreak=LegramStreak.create({read:()=>state,persist:()=>save()});
+const celebrate=LegramCelebrate;
+/* نقاط اليوم: أساس ثابت لكل نشاط مكتمل، وزيادة على جودة الأداء. */
+const levelXp=stars=>10+Math.max(0,Math.min(3,stars))*5;
+const dialogueXp=stars=>12+Math.max(0,Math.min(3,stars))*6;
+
+function renderStreakChips(){
+ const summary=dailyStreak.summary();
+ const label=summary.current===0?'لم تبدأ سلسلة بعد'
+  :`سلسلة ${summary.current} ${summary.current===1?'يوم':'أيام'}${summary.activeToday?'':' — لم تتدرب اليوم بعد'}`;
+ $$('[data-streak-chip]').forEach(chip=>{
+  chip.querySelector('[data-streak-count]').textContent=String(summary.current);
+  chip.dataset.state=summary.current===0?'cold':summary.atRisk?'risk':'hot';
+  chip.setAttribute('aria-label',label);
+ });
+ return summary;
+}
+
+function renderWeekStrip(host,days=dailyStreak.week()){
+ if(!host)return;
+ host.innerHTML=days.map(day=>{
+  const classes=[day.done?'done':'',day.frozen?'frozen':'',day.isToday?'today':''].filter(Boolean).join(' ');
+  const state=day.frozen?'محمي بتجميدة':day.done?`${day.xp} نقطة`:'لا نشاط';
+  return `<div class="${classes}"><small>${day.label}</small><i role="img" aria-label="${day.label}: ${state}"></i></div>`;
+ }).join('');
+}
+
+function renderStreakModal(){
+ const summary=dailyStreak.summary(),streakState=dailyStreak.get();
+ const percent=Math.min(100,Math.round(summary.todayXp/summary.goal*100));
+ $('#streakModalTitle').textContent=summary.current===0?'لنبدأ سلسلة':`${summary.current} ${summary.current===1?'يوم':'أيام'} متتالية`;
+ $('#streakModalText').textContent=summary.current===0
+  ?'أكمل نشاطًا واحدًا اليوم لتشتعل السلسلة، وحافظ عليها كل يوم.'
+  :summary.activeToday?'تدربت اليوم — سلسلتك في أمان.':'لم تتدرب اليوم بعد. نشاط واحد يكفي للحفاظ عليها.';
+ renderWeekStrip($('#streakModalWeek'));
+ const ring=$('#streakGoalRing');
+ ring.dataset.met=String(summary.goalMet);
+ ring.querySelector('.ring').style.setProperty('--goal',percent);
+ $('#streakGoalPercent').textContent=`${percent}%`;
+ $('#streakGoalValue').textContent=`${summary.todayXp} / ${summary.goal} نقطة`;
+ $('#streakGoalNote').textContent=summary.goalMet?'حققت هدف اليوم. أي نشاط إضافي مكسب صافٍ.':'أكمل مستوى أو محادثة واحدة لتحقيق هدف اليوم.';
+ $('#streakBest').textContent=String(summary.best);
+ $('#streakFreezes').textContent=String(summary.freezes);
+ $('#streakTotalDays').textContent=String(Object.keys(streakState.days).length);
+}
+
+/* لحظة زيادة السلسلة — تُعرض مرة واحدة في اليوم، بعد أول نشاط مكتمل. */
+function showStreakMoment(result,onDone){
+ const overlay=$('#streakMoment');
+ if(!overlay||!result?.increased){onDone?.();return}
+ const finish=()=>{
+  overlay.classList.remove('show');overlay.setAttribute('aria-hidden','true');
+  $('#smContinue').onclick=null;onDone?.();
+ };
+ $('#smCount').textContent=String(result.current);
+ $('#smTitle').textContent=result.current===1?'يوم متتالٍ':`${result.current} أيام متتالية`;
+ $('#smText').textContent=result.firstEver
+  ?'بدأت سلسلتك. ارجع غدًا وسترتفع إلى يومين.'
+  :result.usedFreeze?'استُهلكت تجميدة لتغطية يوم الغياب — سلسلتك محفوظة.'
+  :result.newRecord?'هذا أطول ما وصلت إليه حتى الآن. واصل.'
+  :'يوم آخر في الطريق. العودة غدًا تُبقي السلسلة مشتعلة.';
+ const badge=$('#smBadge');
+ const badgeText=result.earnedFreeze?'❄ ربحت تجميدة تحمي يوم غياب':result.newRecord?'★ رقم قياسي جديد':'';
+ badge.hidden=!badgeText;badge.textContent=badgeText;
+ renderWeekStrip($('#smWeek'));
+ overlay.setAttribute('aria-hidden','false');
+ overlay.classList.remove('show');void overlay.offsetWidth;overlay.classList.add('show');
+ sfx.fanfare?.();haptic([30,40,30,40,70]);
+ celebrate.confetti.rain(1500,6);
+ setTimeout(()=>celebrate.confetti.cannons({count:45}),260);
+ $('#smContinue').onclick=finish;
+ requestAnimationFrame(()=>$('#streakMoment .sm-card')?.focus({preventScroll:true}));
+}
+
+/* تُستدعى عند إكمال أي نشاط: تسجّل النقاط، تحدّث الشارة، وتُرجع نتيجة اليوم. */
+function recordDailyProgress(xp){
+ const result=dailyStreak.register(xp);
+ const summary=renderStreakChips();
+ $$('[data-streak-chip]').forEach(chip=>{if(result.increased)celebrate.pulse(chip)});
+ return {...result,summary};
+}
+
+$$('[data-streak-chip]').forEach(chip=>chip.onclick=()=>{renderStreakModal();openAccessibleDialog($('#streakModal'),$('#streakClose'))});
+$('#streakClose')&&($('#streakClose').onclick=()=>closeAccessibleDialog($('#streakModal')));
+window.__legramStreak={engine:dailyStreak,moment:result=>showStreakMoment(result||{increased:true,current:dailyStreak.summary().current||1,firstEver:true}),render:renderStreakChips};
 const DIALOGUE_LEVELS=LegramDialogueContent.levels;
 const dialogueEngine=new LegramDialogueEngine({content:LegramDialogueContent,similarity:sentenceSimilarity,normalize});
 window.__legramTest={normalize,isCorrectAnswer,editDistance};
@@ -153,6 +241,7 @@ const engine=new LegramEngine2D({arena:$('#arena'),hero:$('#gameHero'),monster:$
 const npcMotion=new LegramNpcMotion($('#sentenceNpc'));
 window.__legramEngine=engine;
 $('#monster').appendChild($('#monsterHp'));
+['a1-g1','a2-v1','b1-g1','b2-g1','c1-g1'].forEach(n=>{const i=new Image();i.decoding='async';i.src=`assets/game/world-${n}.webp`});
 const worldFx=new LegramWorldFx($('#arena'));window.__worldFx=worldFx;
 const sfx=new LegramSfx();sfx.isEnabled=()=>state.sound!==false;
 const wordVoice=new LegramWordVoice({fallback:text=>speak(text,.75),getContext:()=>sfx.ensure(),onStart:()=>sfx.duck(true),onEnd:()=>sfx.duck(false)});window.__legramWordVoice=wordVoice;
@@ -342,7 +431,7 @@ function renderPhraseHub(){
  const arrow='<svg viewBox="0 0 24 24" aria-hidden="true"><path d="m15 5-7 7 7 7"/></svg>';
  $('#placeGrid').innerHTML=SENTENCE_PLACES.map((place,index)=>{const record=getPhraseRecord(levelId,place.id),saved=Math.min(profile.turns,Number(record.progress)||0),stars=Number(record.stars)||0,complete=Boolean(record.completed);
   const status=complete?'مكتمل':saved?`تابع من الموقف ${saved+1}`:`${profile.turns} مواقف`;
-  return `<button class="tk-place ${complete?'complete':''}" data-place="${index}" style="--place-accent:${place.accent}" aria-label="${escapeAttribute(place.name)} — ${escapeAttribute(status)}"><span class="tk-place-info"><small lang="de" dir="ltr">${place.de}</small><strong>${place.name}</strong><span>تتحدث مع ${place.npc} · ${place.npcRole}</span><span class="tk-place-meter"><i><b style="width:${(complete?profile.turns:saved)/profile.turns*100}%"></b></i><em>${status}</em></span>${stars?`<span class="tk-place-stars" aria-label="${stars} نجوم">${'★'.repeat(stars)}${'☆'.repeat(3-stars)}</span>`:''}</span><span class="tk-place-go" aria-hidden="true">${arrow}</span><span class="tk-place-art" aria-hidden="true"><i class="${place.npcClass}"></i></span></button>`}).join('');
+  return `<button class="tk-place ${complete?'complete':''}" data-place="${index}"  aria-label="${escapeAttribute(place.name)} — ${escapeAttribute(status)}"><span class="tk-place-info"><small lang="de" dir="ltr">${place.de}</small><strong>${place.name}</strong><span>تتحدث مع ${place.npc} · ${place.npcRole}</span><span class="tk-place-meter"><i><b style="width:${(complete?profile.turns:saved)/profile.turns*100}%"></b></i><em>${status}</em></span>${stars?`<span class="tk-place-stars" aria-label="${stars} نجوم">${'★'.repeat(stars)}${'☆'.repeat(3-stars)}</span>`:''}</span><span class="tk-place-go" aria-hidden="true">${arrow}</span><span class="tk-place-art" aria-hidden="true"><i class="${place.npcClass}"></i></span></button>`}).join('');
  $$('[data-place]').forEach(button=>button.onclick=()=>{activateExperienceSound();startSentencePlace(Number(button.dataset.place))});
 }
 
@@ -379,7 +468,7 @@ function startSentencePlace(index,restart=false){
  for(let i=0;i<session.index;i++)talkHistory[i]=true;
  sentenceStep=session.index;sentenceCorrect=session.correct;sentenceAttempts=0;sentenceLocked=false;
  go('phraseGameScreen');
- const screen=$('#phraseGameScreen');screen.classList.remove('done');screen.style.setProperty('--sentence-accent',place.accent);
+ const screen=$('#phraseGameScreen');screen.classList.remove('done');
  $('#sentenceComplete').classList.remove('show');$('#sentencePlaceGerman').textContent=place.de;$('#sentencePlaceName').textContent=place.name;$('#sentenceLevelBadge').textContent=session.profile.id;
  $('#sentenceNpcName').textContent=place.npc;$('#sentenceNpcRole').textContent=place.npcRole;$('#sentenceNpc').setAttribute('aria-label',`${place.npc}، ${place.npcRole}`);
  $('#sentenceStage').className=`tk-stage ${place.sceneClass}`;$('#sentenceNpc').className=`sentence-npc ${place.npcClass} listening`;npcMotion.listen(place.id);talkScene.start(place.accent,place.id);talkScene.focus('both');
@@ -477,7 +566,15 @@ function completeSentencePlace(){
  renderSteps();$('#phraseGameScreen').classList.add('done');talkScene.react(passed?'good':'bad');
  $('#sentenceCompleteTitle').textContent=passed?`أحسنت في ${place.name}`:`جرّب ${place.name} مرة أخرى`;$('#sentenceCompleteStars').textContent='★ '.repeat(summary.stars)+'☆ '.repeat(3-summary.stars);
  $('#sentenceCompleteText').textContent=passed?`نجحت في ${summary.correct} من ${summary.turns} مواقف — مستوى ${dialogueEngine.session.levelId}`:'لم تنجح في أي موقف هذه المرة، فلم يُحتسب المكان مكتملًا.';
- $('#sentenceCompleteAccuracy').textContent=`${summary.accuracy}%`;$('#sentenceCompleteVocabulary').textContent=`${summary.vocabulary}%`;$('#sentenceComplete').classList.add('show');haptic(passed?[35,30,55,40,90]:[45,30,45]);if(passed)sfx.fanfare?.();
+ $('#sentenceCompleteAccuracy').textContent='0%';$('#sentenceCompleteVocabulary').textContent='0%';$('#sentenceComplete').classList.add('show');haptic(passed?[35,30,55,40,90]:[45,30,45]);if(passed)sfx.fanfare?.();
+ celebrate.countUp($('#sentenceCompleteAccuracy'),summary.accuracy,{suffix:'%'});
+ celebrate.countUp($('#sentenceCompleteVocabulary'),summary.vocabulary,{suffix:'%'});
+ if(passed){
+  const daily=recordDailyProgress(dialogueXp(summary.stars));
+  celebrate.confetti.fromElement($('#sentenceComplete'),{count:70,power:15});
+  if(daily.gained)setTimeout(()=>celebrate.floatText($('#sentenceCompleteStars'),`+${daily.gained}`),380);
+  if(daily.increased)setTimeout(()=>showStreakMoment(daily),1500);
+ }
  requestAnimationFrame(()=>$('#sentenceReplayBtn').focus({preventScroll:true}));
 }
 
@@ -488,7 +585,7 @@ $('#sentenceReplayVoice').onclick=()=>{activateExperienceSound();if(lastNpcReply
 
 const speech=new LegramSpeech({
  onTranscript:alternatives=>{if(answered||pendingAnswer.length)return;pendingAnswer=alternatives;haptic(18);$('#micText').textContent=`سُجلت: ${pendingAnswer[0]}`;$('#micBtn').classList.remove('listening');handleAnswer(pendingAnswer)},
- onStatus:status=>{if(status==='requesting'){$('#micText').textContent='بانتظار إذن الميكروفون';$('#micBtn').classList.remove('listening')}else if(['unsupported','denied','error'].includes(status)){wordMicUnavailable(status)}else if(['listening','restarting'].includes(status)&&!pendingAnswer.length&&!wordInputMode){setWordLive('on','الميكروفون يعمل — قل الكلمة');$('#micBtn').classList.add('listening');if(status==='listening')startWordEncounterTimer()}},
+ onStatus:status=>{if(status==='requesting'){setWordLive('wait','بانتظار إذن الميكروفون');$('#micBtn').classList.remove('listening')}else if(['unsupported','denied','error'].includes(status)){wordMicUnavailable(status)}else if(['listening','restarting'].includes(status)&&!pendingAnswer.length&&!wordInputMode){setWordLive('on','الميكروفون يعمل — قل الكلمة');$('#micBtn').classList.add('listening');if(status==='listening')startWordEncounterTimer()}},
  shouldRestart:()=>$('#gameScreen').classList.contains('active')&&!paused&&!wordInputMode&&Boolean(encounterStart)&&timeLeft>0
 });
 
@@ -516,7 +613,7 @@ function setWordLive(kind,text){const c=$('#wordAnswerControls');c.dataset.live=
 function wordMicUnavailable(kind){stopRecognition();speech.setAccepting(false);$('#micBtn').classList.remove('listening');clearInterval(timerId);combat.calm?.();encounterStart=0;
  const preview=inClaudePreview();const msg=preview?'الميكروفون محجوب داخل Claude — افتح اللعبة من رابطها على الويب':kind==='unsupported'?'التعرف على الصوت يحتاج متصفح Chrome أو Edge':'اسمح للميكروفون ثم اضغط هنا';
  setWordLive('off',msg)}
-function requestWordMicrophone({resetTime=false}={}){$('#wordAnswerControls').dataset.live='wait';wordInputMode=false;$('#wordTypeForm').hidden=true;$('#wordTypeToggle').hidden=false;$('#wordTypeInput').disabled=true;if(resetTime)resetWordEncounterTimer();$('#micText').textContent='جارٍ تجهيز الميكروفون';$('#micBtn').classList.remove('listening');speech.setAccepting(true);if(speech.active){setWordLive('on','الميكروفون يعمل — قل الكلمة');$('#micBtn').classList.add('listening');startWordEncounterTimer()}else startRecognition(false)}
+function requestWordMicrophone({resetTime=false}={}){$('#wordAnswerControls').dataset.live='wait';wordInputMode=false;$('#wordTypeForm').hidden=true;$('#wordTypeToggle').hidden=false;$('#wordTypeInput').disabled=true;if(resetTime)resetWordEncounterTimer();setWordLive('wait','جارٍ تجهيز الميكروفون');$('#micBtn').classList.remove('listening');speech.setAccepting(true);if(speech.active){setWordLive('on','الميكروفون يعمل — قل الكلمة');$('#micBtn').classList.add('listening');startWordEncounterTimer()}else startRecognition(false)}
 
 function renderBossHp(){if(!duel)return;const host=$('#monsterHp i');host.innerHTML=Array.from({length:duel.bossMax},(_,i)=>`<b class="seg${i<duel.bossHp?'':' lost'}"></b>`).join('');$('#wordCounter').textContent=`${duel.hits}/${duel.bossMax}`;$('#wordProgressBar').style.width=`${duel.hits/duel.bossMax*100}%`;$('#monsterHp').setAttribute('aria-label',`طاقة ${duel.boss.name}: ${duel.bossHp} من ${duel.bossMax}`)}
 function renderLives(){$('#lives').innerHTML=Array.from({length:HERO_MAX_HP},(_,i)=>`<span class="${i<lives?'':'lost'}" aria-hidden="true"></span>`).join('');$('#lives').setAttribute('aria-label',`الأرواح: ${lives} من ${HERO_MAX_HP}`)}
@@ -554,7 +651,7 @@ function showQuestion(){
  const art=WORD_ART[item.word];$('#picture').className=art?`word-art art-${art}`:'';$('#picture').textContent=art?'':item.pic;
  $('#promptAr').textContent=item.ar||'';$('#promptHint').textContent=item.article?'بالألمانية مع der / die / das':'بالألمانية';
  const card=$('#promptCard');card.classList.remove('waiting');if(window.gsap)gsap.fromTo(card,{scale:.86,opacity:0},{scale:1,opacity:1,duration:.28,ease:'back.out(2)',clearProps:'scale,opacity'});
- $('#wordTypeInput').value='';$('#wordTypeInput').disabled=true;$('#micText').textContent=wordInputMode?'اكتب الكلمة بالألمانية':'جارٍ تجهيز الميكروفون';$('#micBtn').classList.remove('listening');
+ $('#wordTypeInput').value='';$('#wordTypeInput').disabled=true;if(!speech.active)setWordLive('wait','جارٍ تجهيز الميكروفون');
  speech.setAccepting(true);setTimeout(()=>{if(paused||answered||duel?.current!==item)return;if(wordInputMode)setWordTyping(true,{focus:true});else requestWordMicrophone()},120);
 }
 function judgeAnswer(heard,item){
@@ -577,7 +674,7 @@ function handleAnswer(input,timedOut=false){
   haptic([24,22,48]);
   showFeedback('correct',verdict.crit?'ضربة حاسمة!':'إجابة صحيحة!',verdict.crit||!item.article?[{label:'',de:item.display}]:[{label:'',de:item.display},'أضف الأداة لضربة حاسمة']);
   let voice=null;lastSpoken=item;
-  const onImpact=()=>{renderBossHp();combat.bar($('#monsterHp'));sfx.hpDrain();voice=sayWord(item,300,alive)};
+  const onImpact=()=>{renderBossHp();combat.bar($('#monsterHp'));sfx.hpDrain();voice=sayWord(item,300,alive);if(lethal)$('#promptCard').classList.add('waiting')};
   const after=async()=>{await untilSaid(voice);await wait(220);if(!alive())return;lethal?finishLevel():showQuestion()};
   if(combat.enabled)combat.heroStrike({word:item.display,crit:verdict.crit,lethal,combo:streak,onImpact,onSettled:after});
   else{onImpact();setTimeout(after,900)}
@@ -586,7 +683,7 @@ function handleAnswer(input,timedOut=false){
   duel.retry.push({i:duel.words.indexOf(item),due:duel.since+2});
   state.mistakes[item.word]={pic:item.pic,word:item.display,world:catalog.world(selectedWorld).id};save();
   const title=timedOut?'انتهى الوقت!':verdict.wrongArticle?'الأداة خاطئة':'ليست صحيحة';
-  const detail=verdict.wrongArticle?[{label:'كتبت: ',de:verdict.wrongArticle},{label:'الصحيح: ',de:item.display}]:transcript?[{label:'كتبت: ',de:transcript},{label:'الصحيح: ',de:item.display}]:[{label:'الصحيح: ',de:item.display}];
+  const detail=verdict.wrongArticle?[{label:'قلت: ',de:verdict.wrongArticle},{label:'الصحيح: ',de:item.display}]:transcript?[{label:'قلت: ',de:transcript},{label:'الصحيح: ',de:item.display}]:[{label:'الصحيح: ',de:item.display}];
   showFeedback('wrong',title,detail,380);
   let voice=null;lastSpoken=item;
   const onImpact=()=>{renderLives();combat.pulse($$('#lives span')[duel.heroHp]);sfx.heartBreak();haptic([70,35,90]);voice=sayWord(item,620,alive)};
@@ -595,11 +692,34 @@ function handleAnswer(input,timedOut=false){
   else{onImpact();setTimeout(after,1200)}
  }
 }
-function gameOver(){clearInterval(timerId);stopRecognition();sfx.defeat();$('#resultTitle').textContent=`هزمك ${duel?.boss?.name||'الزعيم'}`;$('#resultText').textContent='تلقّى Le ثلاث ضربات. راجع الكلمات التي أخطأت فيها ثم حاول مرة أخرى.';setResult(false);go('resultScreen')}
+function gameOver(){clearInterval(timerId);stopRecognition();sfx.defeat();$('#resultTitle').textContent=`هزمك ${duel?.boss?.name||'الزعيم'}`;$('#resultText').textContent='تلقّى Le ثلاث ضربات. راجع الكلمات التي أخطأت فيها ثم حاول مرة أخرى.';setResult(false);go('resultScreen');celebrateResult(false)}
 function finishLevel(){
  clearInterval(timerId);stopRecognition();const global=catalog.globalLevel(selectedWorld,currentLevel),taken=HERO_MAX_HP-duel.heroHp,stars=taken===0?3:taken===1?2:1;
  state.stars[global]=Math.max(state.stars[global]||0,stars);state.unlocked=Math.max(state.unlocked,Math.min(catalog.totalLevels,global+1));state.stats.levelsCompleted++;state.wallet.wordShards+=duel.hits*2+duel.crits*3+stars*5;save();
- $('#resultTitle').textContent=`هزمت ${duel.boss.name}!`;$('#resultText').textContent=`أكملت المستوى ${currentLevel+1} من عالم ${catalog.world(selectedWorld).id}${duel.crits?` — ${duel.crits} ضربات حاسمة`:''}`;setResult(true,stars);showVictory(()=>go('resultScreen'))
+ const daily=recordDailyProgress(levelXp(stars));
+ $('#resultTitle').textContent=`هزمت ${duel.boss.name}!`;$('#resultText').textContent=`أكملت المستوى ${currentLevel+1} من عالم ${catalog.world(selectedWorld).id}${duel.crits?` — ${duel.crits} ضربات حاسمة`:''}`;setResult(true,stars);
+ showVictory(()=>showStreakMoment(daily,()=>{go('resultScreen');celebrateResult(true,stars,daily)}))
+}
+/* احتفال شاشة النتيجة: كونفيتي، أرقام تتصاعد، وصف السلسلة. */
+function celebrateResult(win,stars=0,daily=null){
+ const summary=daily?.summary||dailyStreak.summary();
+ const row=$('#resultStreak');
+ if(row){
+  row.hidden=!summary.current;
+  if(summary.current){
+   $('#resultStreakCount').textContent=`${summary.current} ${summary.current===1?'يوم':'أيام'}`;
+   $('#resultStreakNote').textContent=daily?.goalJustReached?'— تحقق هدف اليوم'
+    :summary.goalMet?'— هدف اليوم مكتمل'
+    :`— ${Math.max(0,summary.goal-summary.todayXp)} نقطة لهدف اليوم`;
+  }
+ }
+ if(!win)return;
+ const hits=duel?.hits||0,misses=duel?.misses||0,total=hits+misses;
+ celebrate.countUp($('#correctStat'),hits);
+ celebrate.countUp($('#accuracyStat'),total?Math.round(hits/total*100):0,{suffix:'%'});
+ celebrate.countUp($('#newWordsStat'),duel?.asked?.size||0);
+ celebrate.confetti.cannons({count:50});
+ if(daily?.gained)setTimeout(()=>celebrate.floatText($('#resultStreak')||$('#resultStars'),`+${daily.gained}`),320);
 }
 function showVictory(onComplete){const overlay=$('#victoryOverlay'),hero=$('#victoryHero');clearTimeout(victoryTimer);paused=true;stopRecognition();overlay.setAttribute('aria-hidden','false');overlay.classList.remove('show');hero.className='victory-hero';void overlay.offsetWidth;overlay.classList.add('show');hero.classList.add('playing');sfx.fanfare();haptic([35,35,55,45,90]);victoryTimer=setTimeout(()=>{overlay.classList.remove('show');overlay.setAttribute('aria-hidden','true');hero.classList.remove('playing');paused=false;onComplete?.()},4200)}
 window.__legramVictory={show:()=>showVictory(),duration:4200};
@@ -620,10 +740,12 @@ function setCloudStatus(status,payload={}){
 function applyCloudState(next){
  state=next;state.phrases={level:null,records:{},progress:{},scores:{},stars:{},completed:{},...(state.phrases||{})};state.phrases.records=state.phrases.records||{};pendingConversationLevel=state.phrases.level;
  $('#soundToggle')?.classList.toggle('muted',!state.sound);if($('#mistakeCount'))$('#mistakeCount').textContent=Object.keys(state.mistakes||{}).length;
+ renderStreakChips();if($('#streakModal')?.classList.contains('show'))renderStreakModal();
  const screen=activeScreenId();if(screen==='mapScreen')renderMap();else if(screen==='phrasesScreen'&&!activeDialog)renderPhraseHub();else if(screen==='reviewScreen')renderReview();
 }
 cloudSync=LegramCloudSync.create({store,fetch:LegramBackend.progressFetch,onApplied:applyCloudState,onStatus:setCloudStatus});
-cloudSync.start().then(()=>{state.stats.sessions++;save()});window.__legramCloudSync=cloudSync;
+cloudSync.start().then(()=>{state.stats.sessions++;save();renderStreakChips()});window.__legramCloudSync=cloudSync;
+renderStreakChips();
 
 $('#feedbackListen')&&($('#feedbackListen').onclick=()=>{if(lastSpoken)wordVoice.play(lastSpoken)});
 function renderCredits(){const host=$('#creditsList');if(!host)return;wordVoice.ready.then(()=>{const list=wordVoice.credits();const bySpeaker={};list.forEach(c=>{(bySpeaker[c.artist||'غير معروف']=bySpeaker[c.artist||'غير معروف']||[]).push(c)});host.innerHTML=Object.entries(bySpeaker).sort((a,b)=>b[1].length-a[1].length).map(([who,items])=>`<details><summary><b>${escapeAttribute(who)}</b><span>${items.length} تسجيل</span></summary><ul>${items.map(c=>`<li><a href="${escapeAttribute(c.page)}" target="_blank" rel="noopener" lang="de" dir="ltr">${escapeAttribute(c.title.replace(/^File:/,''))}</a> <small>${escapeAttribute(c.license)}</small></li>`).join('')}</ul></details>`).join('');$('#creditsCount').textContent=String(list.length)})}

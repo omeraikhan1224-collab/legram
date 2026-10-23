@@ -2,13 +2,17 @@
   'use strict';
 
   const SAVE_KEY = 'legram-state';
-  const SAVE_VERSION = 4;
+  const SAVE_VERSION = 5;
+  const DEFAULT_STREAK = Object.freeze({
+    current: 0, best: 0, lastDay: null, freezes: 1, goal: 30, days: {}, frozen: []
+  });
   const DEFAULT_STATE = Object.freeze({
     version: SAVE_VERSION,
     unlocked: 1,
     stars: {},
     mistakes: {},
     sound: true,
+    streak: DEFAULT_STREAK,
     stats: { sessions: 0, levelsStarted: 0, levelsCompleted: 0 },
     wallet: { wordShards: 0 },
     inventory: { selectedHero: 'le', unlockedHeroes: ['le'] },
@@ -38,6 +42,12 @@
       version: SAVE_VERSION,
       stars: source.stars && typeof source.stars === 'object' ? source.stars : {},
       mistakes: source.mistakes && typeof source.mistakes === 'object' ? source.mistakes : {},
+      streak: {
+        ...clone(DEFAULT_STREAK),
+        ...(source.streak && typeof source.streak === 'object' ? source.streak : {}),
+        days: { ...((source.streak || {}).days || {}) },
+        frozen: Array.isArray((source.streak || {}).frozen) ? [...source.streak.frozen] : []
+      },
       stats: { ...DEFAULT_STATE.stats, ...(source.stats || {}) },
       wallet: { ...DEFAULT_STATE.wallet, ...(source.wallet || {}) },
       inventory: { ...DEFAULT_STATE.inventory, ...(source.inventory || {}) },
@@ -132,7 +142,7 @@
   }
 
   global.LegramCore = Object.freeze({
-    SAVE_KEY, SAVE_VERSION, createStore, createCatalog, migrateState,
+    SAVE_KEY, SAVE_VERSION, DEFAULT_STREAK, createStore, createCatalog, migrateState,
     normalizeGerman, editDistance, isCorrectAnswer
   });
 })(window);

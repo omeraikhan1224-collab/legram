@@ -58,6 +58,9 @@
         levelsStarted: Math.max(number(cloud.stats?.levelsStarted), number(local.stats?.levelsStarted)),
         levelsCompleted: Math.max(number(cloud.stats?.levelsCompleted), number(local.stats?.levelsCompleted))
       },
+      streak: global.LegramStreak
+        ? global.LegramStreak.merge(cloud.streak, local.streak)
+        : { ...object(cloud.streak), ...object(local.streak) },
       wallet: { wordShards: Math.max(number(cloud.wallet?.wordShards), number(local.wallet?.wordShards)) },
       inventory: {
         ...cloudInventory,
@@ -92,6 +95,8 @@
       number(value.stats?.levelsStarted) > 0 ||
       number(value.stats?.levelsCompleted) > 0 ||
       number(value.wallet?.wordShards) > 0 ||
+      number(value.streak?.current) > 0 ||
+      Object.keys(object(value.streak?.days)).length > 0 ||
       Object.keys(object(phrases.records)).length > 0;
   }
 

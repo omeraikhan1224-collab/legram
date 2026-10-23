@@ -188,3 +188,7 @@
 .word-answer-controls[data-live="on"] .word-live-text::before{content:"";display:inline-block;width:7px;height:7px;margin-inline-end:7px;border-radius:50%;background:#fb7185;box-shadow:0 0 8px #fb7185;vertical-align:middle;animation:liveDot 1s ease-in-out infinite}
 .word-answer-controls[data-live="off"] .word-live-text{color:#fecdd3;white-space:normal;font-size:12px;line-height:1.4}
 @keyframes liveDot{50%{opacity:.25}}
+
+/* camera shake: world + fighters only */
+.arena{--sx:0px;--sy:0px}
+.arena .world-art,.arena .world-mist,.arena .world-weather,.arena .world-fauna,.arena .combat-entity,.arena #fxLayer,.arena .slash-fx,.arena .impact-fx{translate:var(--sx) var(--sy)}

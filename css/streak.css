@@ -1,0 +1,217 @@
+/* Legram — السلسلة اليومية والاحتفالات.
+ * يُحمَّل بعد app.css فيتجاوز ما يلزم من أنماطها.
+ */
+
+:root{
+  --flame-600:#e2622a;
+  --flame-500:#ff7a2f;
+  --flame-400:#ffa23d;
+  --flame-300:#ffcb5c;
+  --flame-glow:#ff8a3c66;
+  --streak-dead:#6c6478;
+  --press-depth:4px;
+}
+
+/* ---------- أزرار بسُمك ثلاثي الأبعاد: تُضغط للأسفل بدل أن تتقلّص ---------- */
+.primary,.ghost{
+  border-radius:18px;
+  font-weight:800;
+  letter-spacing:.01em;
+  transition:transform .09s var(--ease-out),filter .16s ease,border-color .16s ease,background .16s ease
+}
+.primary{
+  border-bottom:var(--press-depth) solid #4c1d95;
+  box-shadow:0 6px 18px #6d28d93d
+}
+.ghost{border-bottom:var(--press-depth) solid #ffffff14}
+.primary:active,.ghost:active{
+  transform:translateY(calc(var(--press-depth) - 1px));
+  border-bottom-width:1px
+}
+.primary:hover{filter:brightness(1.06)}
+
+/* ---------- شارة السلسلة في أعلى الشاشة ---------- */
+.streak-chip{
+  display:flex;align-items:center;gap:5px;
+  height:34px;padding:0 12px 0 10px;
+  border:1px solid #ffffff1f;border-radius:999px;
+  background:linear-gradient(150deg,#2a1430,#140b1e);
+  box-shadow:0 7px 20px #0006;
+  color:var(--flame-300);font-weight:900;font-size:15px;
+  backdrop-filter:blur(12px);
+  transition:transform .18s var(--ease-spring),box-shadow .2s ease
+}
+.streak-chip svg{width:19px;height:19px;fill:url(#flameGradient);stroke:none;filter:drop-shadow(0 2px 6px var(--flame-glow))}
+.streak-chip b{font-variant-numeric:tabular-nums;line-height:1}
+.streak-chip:active{transform:scale(.94)}
+.streak-chip[data-state="cold"]{color:var(--streak-dead)}
+.streak-chip[data-state="cold"] svg{fill:var(--streak-dead);filter:none;opacity:.65}
+.streak-chip[data-state="risk"]{border-color:#ffa23d4d;animation:streakBreathe 2.6s ease-in-out infinite}
+
+@keyframes streakBreathe{
+  0%,100%{box-shadow:0 7px 20px #0006}
+  50%{box-shadow:0 7px 20px #0006,0 0 0 4px #ff8a3c1f}
+}
+
+.reels-topbar .streak-chip{margin-inline-start:auto;pointer-events:auto}
+.reels-topbar .cloud-status{margin-inline-start:8px}
+.topbar-actions{display:flex;align-items:center;gap:8px}
+
+/* ---------- الشريط الأسبوعي ---------- */
+.streak-week{display:grid;grid-template-columns:repeat(7,1fr);gap:6px;margin:4px 0 2px}
+.streak-week div{display:grid;justify-items:center;gap:6px}
+.streak-week small{color:var(--text-muted);font-size:9px;font-weight:700}
+.streak-week i{
+  width:100%;aspect-ratio:1;max-width:34px;
+  display:grid;place-items:center;
+  border:1.5px solid #ffffff14;border-radius:50%;
+  background:#ffffff09;color:transparent;
+  font-size:13px;font-style:normal
+}
+.streak-week .done i{
+  border-color:transparent;color:#2a1206;
+  background:linear-gradient(160deg,var(--flame-300),var(--flame-500));
+  box-shadow:0 4px 12px var(--flame-glow)
+}
+.streak-week .done i::after{content:"✓";font-weight:900}
+.streak-week .frozen i{
+  border-color:#6ad6ff4d;color:#9fe4ff;
+  background:linear-gradient(160deg,#1b3b53,#122a3c)
+}
+.streak-week .frozen i::after{content:"❄";font-size:14px}
+.streak-week .today i{border-color:var(--flame-400);border-style:dashed}
+.streak-week .today.done i{border-style:solid}
+.streak-week .today small{color:var(--flame-300)}
+
+/* ---------- نافذة تفاصيل السلسلة ---------- */
+.streak-modal .modal-icon{
+  background:linear-gradient(160deg,#3a1a10,#1d0f16);
+  color:var(--flame-400);border:1px solid #ff8a3c33
+}
+.streak-modal .modal-icon svg{width:30px;height:30px;fill:currentColor;stroke:none}
+.streak-modal h2{color:var(--flame-300);font-size:30px}
+.streak-stats{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin:10px 0 4px}
+.streak-stats div{
+  display:grid;gap:2px;padding:10px 6px;
+  border:1px solid var(--line);border-radius:16px;background:#ffffff07
+}
+.streak-stats b{font-size:19px;color:var(--text);font-variant-numeric:tabular-nums}
+.streak-stats span{color:var(--text-muted);font-size:9px;font-weight:700}
+
+/* حلقة الهدف اليومي */
+.goal-ring{display:flex;align-items:center;gap:12px;padding:12px;border:1px solid var(--line);border-radius:18px;background:#ffffff07;text-align:start}
+.goal-ring .ring{
+  position:relative;width:56px;height:56px;flex:none;border-radius:50%;
+  background:conic-gradient(var(--flame-400) calc(var(--goal,0) * 1%),#ffffff12 0)
+}
+.goal-ring .ring::after{
+  content:"";position:absolute;inset:6px;border-radius:50%;background:#160e22
+}
+.goal-ring .ring b{
+  position:absolute;inset:0;display:grid;place-items:center;z-index:2;
+  font-size:12px;font-weight:900;color:var(--flame-300)
+}
+.goal-ring .goal-copy{display:grid;gap:2px}
+.goal-ring strong{font-size:14px}
+.goal-ring small{color:var(--text-muted);font-size:10px;line-height:1.5}
+.goal-ring[data-met="true"] .ring b{color:var(--success)}
+.goal-ring[data-met="true"] .ring{background:conic-gradient(var(--success) 100%,#ffffff12 0)}
+
+/* ---------- لحظة زيادة السلسلة: شاشة كاملة ---------- */
+.streak-moment{
+  position:fixed;z-index:140;inset:0;display:none;place-items:center;padding:24px;
+  background:radial-gradient(circle at 50% 38%,#4d1d0bf0,#120714f7 62%,#08050ffa)
+}
+.streak-moment.show{display:grid}
+.streak-moment .sm-rays{
+  position:absolute;width:150vmax;height:150vmax;
+  background:repeating-conic-gradient(#ff9c4a14 0 7deg,transparent 7deg 17deg);
+  animation:resultSpin 30s linear infinite
+}
+.sm-card{
+  position:relative;z-index:3;width:min(360px,100%);
+  display:grid;justify-items:center;gap:8px;text-align:center
+}
+.sm-flame{
+  width:132px;height:132px;display:grid;place-items:center;
+  filter:drop-shadow(0 18px 40px var(--flame-glow));
+  animation:flameFloat 2.4s ease-in-out infinite
+}
+.sm-flame svg{width:100%;height:100%;fill:url(#flameGradientBig);stroke:none}
+.streak-moment.show .sm-flame{animation:flameIn .72s var(--ease-spring) both,flameFloat 2.4s 1s ease-in-out infinite}
+.sm-count{
+  font-size:clamp(62px,19vw,96px);line-height:.95;font-weight:900;
+  color:#fff;text-shadow:0 6px 30px var(--flame-glow);font-variant-numeric:tabular-nums
+}
+.streak-moment.show .sm-count{animation:countIn .62s .18s var(--ease-spring) both}
+.sm-card strong{font-size:21px;color:var(--flame-300)}
+.sm-card p{color:var(--text-soft);font-size:12px;line-height:1.65;max-width:30ch}
+.sm-card .streak-week{width:100%;margin:10px 0 6px}
+.sm-card .primary{width:100%;margin-top:4px}
+.sm-badge{
+  display:inline-flex;align-items:center;gap:6px;
+  padding:5px 12px;border-radius:999px;
+  background:#ffffff12;border:1px solid #ffffff20;
+  font-size:11px;font-weight:800;color:var(--flame-300)
+}
+
+@keyframes flameIn{
+  0%{opacity:0;transform:scale(.3) rotate(-14deg)}
+  60%{opacity:1;transform:scale(1.14) rotate(4deg)}
+  100%{opacity:1;transform:scale(1) rotate(0)}
+}
+@keyframes flameFloat{
+  0%,100%{transform:translateY(0) scale(1)}
+  50%{transform:translateY(-9px) scale(1.035)}
+}
+@keyframes countIn{
+  0%{opacity:0;transform:scale(.55) translateY(18px)}
+  70%{opacity:1;transform:scale(1.12) translateY(0)}
+  100%{opacity:1;transform:scale(1)}
+}
+
+/* ---------- صف السلسلة داخل شاشة النتيجة ---------- */
+.result-streak{
+  display:flex;align-items:center;justify-content:center;gap:9px;
+  margin:12px auto 0;padding:9px 16px;width:fit-content;
+  border:1px solid #ff8a3c2e;border-radius:999px;
+  background:linear-gradient(140deg,#2e1710,#1a0f1e);
+  color:var(--flame-300);font-weight:800;font-size:13px
+}
+.result-streak svg{width:18px;height:18px;fill:url(#flameGradient);stroke:none}
+.result-streak span{color:var(--text-soft);font-weight:700;font-size:11px}
+
+/* ---------- طبقة الكونفيتي والأرقام الطائرة ---------- */
+.confetti-layer{position:fixed;z-index:200;inset:0;pointer-events:none}
+.float-gain{
+  position:fixed;z-index:201;transform:translate(-50%,0);
+  font-size:19px;font-weight:900;pointer-events:none;
+  text-shadow:0 3px 14px #000a;
+  animation:floatGain 1.3s var(--ease-out) forwards
+}
+@keyframes floatGain{
+  0%{opacity:0;transform:translate(-50%,6px) scale(.8)}
+  22%{opacity:1;transform:translate(-50%,-10px) scale(1.1)}
+  100%{opacity:0;transform:translate(-50%,-54px) scale(1)}
+}
+.celebrate-pop{animation:celebratePop .82s var(--ease-spring)}
+@keyframes celebratePop{
+  0%{transform:scale(1)}
+  28%{transform:scale(1.42) rotate(-6deg)}
+  55%{transform:scale(.94) rotate(3deg)}
+  100%{transform:scale(1) rotate(0)}
+}
+
+/* تدرّج اللهب المشترك: مُعرّف مرة واحدة في index.html */
+.flame-defs{position:absolute;width:0;height:0;overflow:hidden}
+
+@media (max-width:760px){
+  .streak-chip{height:31px;padding:0 10px 0 8px;font-size:14px}
+  .streak-chip svg{width:17px;height:17px}
+  .sm-flame{width:112px;height:112px}
+}
+
+@media (prefers-reduced-motion:reduce){
+  .streak-moment .sm-rays,.sm-flame,.streak-chip[data-state="risk"]{animation:none}
+  .streak-moment.show .sm-count,.streak-moment.show .sm-flame{animation:none}
+}

@@ -1,0 +1,251 @@
+/* Legram — simplified visual system (Apple HIG inspired).
+   One accent colour (Le violet) for interactive things, neutral greys for
+   every surface, semantic colours only for status (green = right, red =
+   wrong/danger, yellow = stars). Flat surfaces: no glows, no gradients on
+   chrome, no borders where a fill already separates. Loaded last. */
+
+:root{
+  --accent:#8b5cf6;
+  --accent-strong:#7c3aed;
+  --accent-soft:#8b5cf629;
+  --bg:#000;
+  --bg-2:#1c1c1e;
+  --bg-3:#2c2c2e;
+  --fill:#7676803d;
+  --fill-2:#7676801f;
+  --sep:#54545899;
+  --label:#fff;
+  --label-2:#ebebf599;
+  --label-3:#ebebf54d;
+  --green:#30d158;
+  --red:#ff453a;
+  --yellow:#ffd60a;
+
+  /* map the old tokens onto the new system */
+  --ink-950:#000;--ink-900:#000;--ink-850:#1c1c1e;--ink-800:#1c1c1e;--ink-750:#2c2c2e;--ink-700:#2c2c2e;
+  --surface:#1c1c1e;--surface-strong:#1c1c1e;--surface-soft:#2c2c2e;--surface-glass:#1c1c1ecc;
+  --line:#ffffff14;--line-strong:#ffffff1f;
+  --text:#fff;--text-soft:#ebebf5cc;--text-muted:#ebebf599;
+  --violet-300:#b9a3ff;--violet-400:#a78bfa;--violet-500:#8b5cf6;--violet-600:#7c3aed;--violet-700:#7c3aed;
+  --mint-500:var(--accent);--mint-300:#b9a3ff;--blue-500:var(--accent);--orange-500:var(--accent);
+  --success:#30d158;--danger:#ff453a;--amber-400:#ffd60a;
+  --shadow-sm:none;--shadow-md:0 10px 30px #0006;--shadow-lg:0 20px 50px #0008;
+  --sentence-accent:var(--accent);--scene-accent:var(--accent);
+}
+html,body,#app{background:#000}
+#app{background:#000}
+
+/* ---------- buttons ---------- */
+.primary{background:var(--accent);box-shadow:none;border-radius:14px;font-weight:700}
+.ghost{background:var(--fill-2);border:0;color:var(--label);font-weight:600;border-radius:14px}
+.round{background:var(--fill-2);border:0;box-shadow:none;backdrop-filter:none}
+.round.danger{color:var(--red)}
+
+/* ---------- screens & headers ---------- */
+.screen,.map-screen,.phrases-screen,.review-screen,.result-screen,.game-screen,.tk-talk{background:#000}
+.topbar,.sentence-hud,.game-hud,.tk-hud{background:#000e;border-bottom:.5px solid var(--sep);backdrop-filter:blur(20px)}
+.topbar-title small,.level-label small{color:var(--label-2);font-weight:600;letter-spacing:0}
+.topbar-title strong{font-weight:700}
+.topbar-title span{color:var(--label-3)}
+.topbar-score{background:var(--fill-2);border:0;box-shadow:none}
+.tk-label,.section-heading small,.result-kicker,.world-copy small,.level-sheet>small,.victory-copy small{color:var(--label-2);font-weight:600;letter-spacing:0}
+
+/* ---------- tab bar ---------- */
+.bottom-nav{background:#000e;border-top:.5px solid var(--sep);box-shadow:none;backdrop-filter:blur(20px)}
+.bottom-nav button{color:#8e8e93;border-radius:12px}
+.bottom-nav button.active{color:var(--accent);background:transparent;box-shadow:none}
+.bottom-nav button.active::before{display:none}
+
+/* ---------- segmented controls (levels) ---------- */
+.world-tabs,.tk-level-tabs{background:var(--fill-2);border:0;border-radius:10px;padding:2px;gap:2px}
+.world-tab,.tk-level-tabs button{border-radius:8px;color:var(--label);font-weight:600;border:0}
+.world-tab.active,.tk-level-tabs button[aria-checked="true"]{background:#636366;color:#fff;box-shadow:0 2px 6px #0004;border:0}
+.tk-level-tabs button small{color:var(--label-2)}
+.tk-level-tabs button[aria-checked="true"] small{color:#fff}
+
+/* ---------- word map ---------- */
+.world-hero{border:0;box-shadow:none;border-radius:20px}
+.world-hero-noise{display:none}
+.world-copy p{color:var(--label-2)}
+.level-card{background:var(--bg-2);border:0;box-shadow:none;border-radius:16px}
+.level-card::after{display:none}
+.level-card:not(.locked):hover{background:var(--bg-3);border:0}
+.level-no{background:var(--accent);box-shadow:none;border-radius:12px;font-weight:700}
+.level-card.locked .level-no{background:var(--bg-3);color:var(--label-3)}
+.level-card small{color:var(--label-2)}
+.mini-stars,.result-stars,.complete-stars,.tk-place-stars,.place-stars{color:var(--yellow)}
+.credits-link,.section-heading>span{background:var(--fill-2);border:0;color:var(--label)}
+
+/* ---------- sentence hub ---------- */
+.tk-hub-lead{color:var(--label-2)}
+.tk-level-note{color:var(--label-2)}
+.tk-mic-check{background:var(--bg-2);border:0;border-radius:14px}
+.tk-mic-check-icon{background:var(--accent-soft);color:var(--accent)}
+.tk-mic-check button{background:var(--fill-2);border:0;color:var(--accent);font-weight:600}
+.tk-mic-check[data-state="ready"]{background:var(--bg-2);border:0}
+.tk-mic-check[data-state="ready"] .tk-mic-check-icon{background:#30d15826;color:var(--green)}
+.tk-mic-check[data-state="blocked"],.tk-mic-check[data-state="unsupported"]{background:var(--bg-2);border:0}
+.tk-mic-check[data-state="blocked"] .tk-mic-check-icon,.tk-mic-check[data-state="unsupported"] .tk-mic-check-icon{background:#ff453a26;color:var(--red)}
+.tk-place{--place-accent:var(--accent);background:var(--bg-2);border:0;border-radius:16px}
+.tk-place:hover{border:0;background:var(--bg-3)}
+.tk-place-art{background:var(--bg-3)}
+.tk-place-info small{color:var(--label-2);font-weight:600}
+.tk-place-info strong{font-weight:700}
+.tk-place-info span{color:var(--label-2)}
+.tk-place-meter i{background:var(--fill)}
+.tk-place-meter b{background:var(--accent)}
+.tk-place-meter em{color:var(--label-2)}
+.tk-place-go{background:transparent;border:0;color:var(--label-3)}
+.tk-place.complete .tk-place-go{background:transparent;color:var(--green)}
+
+/* ---------- conversation screen ---------- */
+.tk-hud-title small span:first-child{color:var(--label-2);font-weight:600}
+.tk-hud-count{background:var(--fill-2);border:0;color:var(--label)}
+.tk-steps i{background:var(--fill)}
+.tk-steps i.done{background:var(--accent)}
+.tk-steps i.missed{background:var(--red)}
+.tk-steps i.now{background:var(--label-2)}
+.tk-stage{background:#000}
+.tk-bubble{background:#1c1c1eeb;border:0;box-shadow:0 6px 18px #0006;backdrop-filter:blur(20px)}
+.tk-talk .tk-bubble::after{border:0}
+.tk-bubble-npc{border:0}
+.tk-bubble-me{background:var(--accent);border:0}
+.tk-talk .tk-bubble-me.good,.tk-talk .tk-bubble-me.bad{background:#1c1c1eeb}
+.tk-bubble-me p,.tk-bubble-me header strong{color:#fff}
+.tk-bubble-me header small{color:#ffffffb3}
+.tk-bubble-me.good .tk-verdict strong{color:var(--green)}
+.tk-bubble-me.bad .tk-verdict strong{color:var(--red)}
+.tk-verdict{border-top:.5px solid var(--sep)}
+.tk-icon-btn{background:var(--fill-2);border:0;color:var(--accent)}
+.tk-icon-btn.is-playing{background:var(--accent-soft);color:var(--accent)}
+.tk-dock{background:#000;border-top:.5px solid var(--sep);box-shadow:none}
+.tk-task-label{color:var(--label-2);font-weight:600;letter-spacing:0}
+.tk-task h2{font-weight:700}
+.tk-task.good h2{color:var(--label)}
+.tk-task.bad h2{color:var(--label)}
+.tk-model p{background:var(--bg-2);border:0;border-radius:10px;font-weight:600}
+.tk-mic-ring{background:conic-gradient(var(--accent) var(--ring),var(--bg-3) 0)}
+.tk-mic-ring::after{background:#000}
+.tk-mic-core{background:var(--accent);box-shadow:none}
+.tk-mic[data-state="listening"] .tk-mic-core{background:var(--red)}
+.tk-mic[data-state="listening"] .tk-mic-ring{background:conic-gradient(var(--red) var(--ring),var(--bg-3) 0)}
+.tk-mic[data-state="busy"] .tk-mic-core,.tk-mic:disabled .tk-mic-core{background:var(--bg-3);color:var(--label-3)}
+.tk-mic[data-state="busy"] .tk-mic-ring{background:var(--bg-3)}
+.tk-mic-time{background:#000;border:.5px solid var(--sep);color:var(--label-2)}
+.tk-status{color:var(--label-2);font-weight:500}
+.tk-status.warn{color:var(--red)}
+.tk-blocker>div{background:var(--bg-2);border:0}
+.tk-blocker-icon{background:#ff453a26;color:var(--red)}
+.tk-talk .tk-complete{background:#000}
+.sentence-complete>small{color:var(--label-2)}
+.sentence-complete-metrics>div{background:var(--bg-2);border:0}
+
+/* ---------- word game: HUD ---------- */
+.word-progress i{background:var(--fill);box-shadow:none}
+.word-progress b{background:var(--accent);box-shadow:none}
+.word-progress span{color:var(--label-2);font-weight:600}
+.lives{color:var(--red)}
+.lives span::before{box-shadow:none}
+.lives span::after{display:none}
+
+/* question card: system-style white card, accent timer */
+.arena.duel .prompt-card{border-radius:18px;box-shadow:0 10px 30px #0007}
+.prompt-card .card-glow{display:none}
+.prompt-ar{color:#1c1c1e;font-weight:700}
+.arena.duel .prompt-card>small{color:#6e6e73;font-weight:600}
+.timer-ring{background:conic-gradient(var(--accent) var(--ring),#e5e5ea 0);box-shadow:none}
+.timer-ring::after{background:#fff;border:0}
+.timer-ring span,.arena.duel .timer-ring span{color:#1c1c1e;font-weight:700}
+.timer-ring.urgent{background:conic-gradient(var(--red) var(--ring),#e5e5ea 0);box-shadow:none}
+.timer-ring.urgent span{color:var(--red)}
+.prompt-timebar{background:#e5e5ea}
+.prompt-timebar::after{background:var(--accent)}
+.arena.duel .prompt-card:has(.timer-ring.urgent) .prompt-timebar::after{background:var(--red)}
+
+/* feedback: one quiet pill under the card */
+.arena.duel .feedback{background:#1c1c1ef2;border:0;box-shadow:0 8px 24px #0007;backdrop-filter:blur(20px)}
+.arena.duel .feedback.correct,.arena.duel .feedback.wrong{border:0}
+.feedback.correct strong{color:var(--green)}
+.feedback.wrong strong{color:var(--red)}
+.feedback strong{font-weight:700}
+.feedback span{color:var(--label-2)}
+.feedback-listen{background:var(--fill-2);border:0;color:var(--accent)}
+
+/* boss energy */
+.arena.duel .monster-hp{background:#1c1c1ee6;border:0;box-shadow:none}
+.arena.duel .monster-hp span{color:var(--label);font-weight:600}
+.arena.duel .monster-hp .seg{background:var(--red);box-shadow:none}
+.arena.duel .monster-hp .seg.lost{background:var(--fill);box-shadow:none}
+
+/* live mic pill */
+.word-answer-controls{background:#1c1c1ee6;border:0;box-shadow:0 8px 24px #0007}
+.mic{background:var(--accent);border:0;box-shadow:none}
+.word-answer-controls[data-live="on"] .mic{background:var(--red);border:0;box-shadow:none}
+.word-answer-controls[data-live="off"] .mic{background:var(--bg-3);border:0}
+.word-answer-controls[data-live="off"]{border:0}
+.word-live-text{font-weight:600;color:var(--label)}
+.word-answer-controls[data-live="on"] .word-live-text::before{background:var(--red);box-shadow:none}
+.word-answer-controls[data-live="off"] .word-live-text{color:var(--label-2)}
+
+/* combat text: plain, readable, no glow */
+.fx-callout{font-weight:800;text-shadow:0 2px 12px #000a;color:#fff}
+.fx-callout.crit,.fx-callout.win,.fx-callout.lose{color:#fff;text-shadow:0 2px 12px #000a}
+.fx-banner small{color:var(--label-2);letter-spacing:.04em;font-weight:600}
+.fx-banner b{background:#1c1c1ee6;border-radius:12px;text-shadow:none;font-weight:700;font-size:22px;padding:6px 16px}
+.fx-banner em{color:var(--label-2);font-weight:600}
+
+/* ---------- results / review / modal ---------- */
+.result-rays,.victory-rays,.completion-halo{display:none}
+.result-screen>p{color:var(--label-2)}
+.result-stats>div{background:var(--bg-2);border:0}
+.result-stats span{color:var(--label-2)}
+.review-card{background:var(--bg-2);border:0;box-shadow:none;border-radius:16px}
+.review-card small{color:var(--label-2)}
+.review-card button{background:var(--fill-2);color:var(--accent)}
+.empty-mark{background:#30d15826;border:0;color:var(--green)}
+.empty p{color:var(--label-2)}
+.modal{background:#000a;backdrop-filter:blur(20px)}
+.modal>div{background:var(--bg-2);border:0;box-shadow:var(--shadow-lg);border-radius:20px}
+.modal-icon{background:var(--accent-soft);color:var(--accent)}
+.modal p{color:var(--label-2)}
+
+/* ---------- reels ---------- */
+.reels-screen,.reels-feed{background:#000}
+.reels-feed{box-shadow:none}
+.cloud-status{background:#1c1c1ecc;border:0}
+.cloud-status i{box-shadow:none}
+.reel-actions button{background:#1c1c1ecc;border:0;box-shadow:none}
+.reel-actions button.is-active{color:var(--red);background:#1c1c1ecc}
+.reel-actions button.sound-on{color:var(--accent);background:#1c1c1ecc}
+.reel-copy small{background:#1c1c1ecc;border:0;color:var(--label);font-weight:600}
+.reel-progress i{background:#fff;box-shadow:none}
+
+/* ---------- type: no ultra-heavy weights ---------- */
+h1,h2,strong,b{font-weight:700}
+
+/* ---------- legibility: nothing under 11px ---------- */
+.sentence-complete-metrics span,.result-stats span,.review-card small,.level-option small,.npc-name small,.conversation-meta>span,.topbar-title small,.topbar-title span,.level-label small,.section-heading small,.tk-level-tabs button small,.tk-place-meter em,.level-card small,.monster-hp span,.arena.duel .monster-hp span,.tk-bubble header small,.reel-copy small{font-size:11px}
+.arena.duel .prompt-card>small{font-size:11px}
+
+/* victory moment: a clean stage, nothing from the fight shows through */
+.victory-overlay{background:#000000f2}
+.victory-ring{display:none}
+.victory-particles i{box-shadow:none}
+
+/* paintings never tile: the duel camera is fixed, life comes from the drift */
+.arena.duel .world-art{background-repeat:no-repeat;background-position:50% 70%}
+
+/* ---------- streak (from the daily-streak update), flattened ---------- */
+.primary,.ghost{border-bottom:0}
+.primary:active,.ghost:active{transform:scale(.97);border-bottom-width:0}
+.primary:hover{filter:none}
+.streak-chip{background:var(--bg-2);border:0;box-shadow:none;backdrop-filter:none}
+.streak-chip[data-state="risk"]{animation:none;border:0}
+.streak-modal .modal-icon{background:#ff9f0a26;border:0;color:#ff9f0a}
+.streak-stats div,.goal-ring{background:var(--bg-3);border:0}
+.goal-ring .ring::after{background:var(--bg-3)}
+.result-streak{background:var(--bg-2);border:0}
+.streak-moment{background:#000000f2}
+.streak-moment .sm-rays{display:none}
+.streak-week small{font-size:11px}
+.streak-stats span,.goal-ring small{font-size:11px}
